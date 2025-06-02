@@ -1,9 +1,9 @@
-package com.cinema.app.aplication.useCase;
+package com.cliente.app.aplication.useCase;
 
-import com.cinema.app.domain.model.Client;
-import com.cinema.app.aplication.out.ClientRepositoryPort;
-import com.cinema.app.infrastructure.controller.dto.ResponseClient;
-import com.cinema.app.infrastructure.repository.IRepositoryClient;
+import com.cliente.app.domain.model.Client;
+import com.cliente.app.aplication.out.ClientRepositoryPort;
+import com.cliente.app.infrastructure.controller.dto.ResponseClient;
+import com.cliente.app.infrastructure.repository.IRepositoryClient;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ClientUseCase {
 
-    private final IRepositoryClient repositoryClient;
     private final ClientRepositoryPort clientRepositoryPort;
 
     public List<ResponseClient> getAllClients() {
@@ -81,5 +80,37 @@ public class ClientUseCase {
             throw new IllegalArgumentException("Client ID cannot be null");
         }
         return clientRepositoryPort.deleteClient(id);
+    }
+
+    public Client filterClientByName(String name) {
+        if (name == null || name.isEmpty()) {
+            throw new IllegalArgumentException("Client name cannot be null or empty");
+        }
+        return clientRepositoryPort.findClientByName(name);
+    }
+
+    public List<ResponseClient> getClientsByOrderAsc(boolean orderAsc) {
+    List<Client> clients = clientRepositoryPort.findAllClients();
+        if (clients == null || clients.isEmpty()) {
+            throw new RuntimeException("No clients found");
+        }
+        if (orderAsc) {
+            clients.sort((c1, c2) -> c1.getName().compareTo(c2.getName()));
+        } else {
+            clients.sort((c1, c2) -> c2.getName().compareTo(c1.getName()));
+        }
+        return clients.stream()
+                .map(client -> {
+                    ResponseClient responseClient = new ResponseClient();
+                    responseClient.setId(client.getId());
+                    responseClient.setName(client.getName());
+                    responseClient.setLastName(client.getLastName());
+                    responseClient.setPhone(client.getPhone());
+                    responseClient.setAge(client.getAge());
+                    responseClient.setIdentificationType(client.getIdentificationType());
+                    responseClient.setIdentificationNumber(client.getIdentificationNumber());
+                    return responseClient;
+                })
+                .collect(Collectors.toList());
     }
 }

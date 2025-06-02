@@ -1,10 +1,10 @@
-package com.cinema.app.infrastructure.controller.rest;
+package com.cliente.app.infrastructure.controller.rest;
 
-import com.cinema.app.aplication.useCase.ClientUseCase;
-import com.cinema.app.domain.model.Client;
-import com.cinema.app.infrastructure.controller.dto.RequestClient;
-import com.cinema.app.infrastructure.controller.dto.ResponseClient;
-import com.cinema.app.infrastructure.controller.mapping.MapperClient;
+import com.cliente.app.aplication.useCase.ClientUseCase;
+import com.cliente.app.domain.model.Client;
+import com.cliente.app.infrastructure.controller.dto.RequestClient;
+import com.cliente.app.infrastructure.controller.dto.ResponseClient;
+import com.cliente.app.infrastructure.controller.mapping.MapperClientImplementation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ import java.util.Map;
 @RequestMapping("/api/clients")
 public class ClientsController {
     private final ClientUseCase serviceClient;
-    private final MapperClient mapClient;
+    private final MapperClientImplementation mapClient;
 
     @GetMapping
     public ResponseEntity<List<ResponseClient>> getAllClients() {
@@ -67,6 +67,30 @@ public class ClientsController {
     public ResponseEntity<String> deleteClient(@PathVariable Integer id) {
         try {
             return ResponseEntity.ok(serviceClient.deleteClient(id));
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(
+                    HttpStatus.NOT_FOUND); // 404 Not Found;
+        }
+    }
+
+    @GetMapping("/filter/{name}")
+    public ResponseEntity<Client> getClientByName(@PathVariable String name) {
+        try {
+            return ResponseEntity.ok(serviceClient.filterClientByName(name));
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(
+                    HttpStatus.NOT_FOUND); // 404 Not Found;
+        }
+    }
+
+    @GetMapping("/order")
+    public ResponseEntity<List<ResponseClient>> getClientsByOrderAsc(@RequestParam(defaultValue = "true") boolean orderAsc) {
+        try {
+            List<ResponseClient> clients = serviceClient.getClientsByOrderAsc(orderAsc);
+            if (clients.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            }
+            return new ResponseEntity<>(clients, HttpStatus.OK); // HttpStatus 200
         } catch (RuntimeException e) {
             return new ResponseEntity<>(
                     HttpStatus.NOT_FOUND); // 404 Not Found;

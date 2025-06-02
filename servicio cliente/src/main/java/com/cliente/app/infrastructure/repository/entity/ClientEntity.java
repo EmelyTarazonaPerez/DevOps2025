@@ -1,4 +1,4 @@
-package com.cinema.app.infrastructure.repository.entity;
+package com.cliente.app.infrastructure.repository.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

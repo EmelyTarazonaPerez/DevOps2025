@@ -1,11 +1,11 @@
-package com.cinema.app.infrastructure.repository.adapter;
+package com.cliente.app.infrastructure.repository.adapter;
 
 
-import com.cinema.app.domain.model.Client;
-import com.cinema.app.aplication.out.ClientRepositoryPort;
-import com.cinema.app.infrastructure.repository.IRepositoryClient;
-import com.cinema.app.infrastructure.repository.entity.ClientEntity;
-import com.cinema.app.infrastructure.repository.mapping.MapperClientEntity;
+import com.cliente.app.domain.model.Client;
+import com.cliente.app.aplication.out.ClientRepositoryPort;
+import com.cliente.app.infrastructure.repository.IRepositoryClient;
+import com.cliente.app.infrastructure.repository.entity.ClientEntity;
+import com.cliente.app.infrastructure.repository.mapping.MapperClientEntityImplementation;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class RepositoryClient implements ClientRepositoryPort {
     private final IRepositoryClient repositoryClient;
-    private final MapperClientEntity mappingClientEntity;
+    private final MapperClientEntityImplementation mappingClientEntity;
 
     @Override
     public List<Client> findAllClients() {
@@ -54,4 +54,14 @@ public class RepositoryClient implements ClientRepositoryPort {
             throw new RuntimeException("Error deleting client with id: " + id, e);
         }
     }
+
+    @Override
+    public Client findClientByName(String identificationNumber) {
+        ClientEntity clientEntity = repositoryClient.findByName(identificationNumber);
+        if (clientEntity == null) {
+            throw new RuntimeException("Client not found with name: " + identificationNumber);
+        }
+        return mappingClientEntity.entityToModel(clientEntity);
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.cinema.app.domain.model;
+package com.cliente.app.domain.model;
 
 import lombok.Getter;
 import lombok.Setter;

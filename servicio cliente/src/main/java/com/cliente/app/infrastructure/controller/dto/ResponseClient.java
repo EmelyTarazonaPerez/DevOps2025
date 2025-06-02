@@ -1,6 +1,5 @@
-package com.cinema.app.infrastructure.controller.dto;
+package com.cliente.app.infrastructure.controller.dto;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

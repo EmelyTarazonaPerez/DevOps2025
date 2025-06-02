@@ -1,6 +1,6 @@
-package com.cinema.app.aplication.out;
+package com.cliente.app.aplication.out;
 
-import com.cinema.app.domain.model.Client;
+import com.cliente.app.domain.model.Client;
 
 import java.util.List;
 
@@ -14,4 +14,5 @@ public interface ClientRepositoryPort {
     Client updateClient(Client client, Integer id);
     Client saveClient(Client client);
     String deleteClient(Integer id);
+    Client findClientByName(String identificationNumber);
 }

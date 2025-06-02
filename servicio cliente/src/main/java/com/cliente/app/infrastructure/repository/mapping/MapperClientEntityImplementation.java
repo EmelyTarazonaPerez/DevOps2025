@@ -1,14 +1,14 @@
-package com.cinema.app.infrastructure.repository.mapping;
+package com.cliente.app.infrastructure.repository.mapping;
 
-import com.cinema.app.domain.model.Client;
-import com.cinema.app.infrastructure.repository.entity.ClientEntity;
+import com.cliente.app.domain.model.Client;
+import com.cliente.app.infrastructure.repository.entity.ClientEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface MapperClientEntity {
+public interface MapperClientEntityImplementation {
 
     ClientEntity modelToEntity(Client client);
     Client entityToModel(ClientEntity entity);

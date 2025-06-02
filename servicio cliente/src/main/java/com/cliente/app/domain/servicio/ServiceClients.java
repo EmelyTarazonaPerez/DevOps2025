@@ -1,4 +1,4 @@
-package com.cinema.app.domain.servicio;
+package com.cliente.app.domain.servicio;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
 package com.soporte.app.infrastructure.repository.adapter;
 
-import com.soporte.app.aplication.out.SupportProductPort;
+import com.soporte.app.domain.port.out.SupportProductPort;
 import com.soporte.app.domain.model.SupportProduct;
 import com.soporte.app.infrastructure.repository.IRepositorySupportProduct;
 import com.soporte.app.infrastructure.repository.entity.ProductEntity;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class RepositorySupport implements SupportProductPort {
+public class AdapterSupport implements SupportProductPort {
     private final IRepositorySupportProduct repositoryClient;
     private final IMapperEntity mapperProductEntity;
 
@@ -23,7 +23,7 @@ public class RepositorySupport implements SupportProductPort {
     }
 
     @Override
-    public SupportProduct findClientById(Integer id) {
+    public SupportProduct findProductById(Integer id) {
       try {
           ProductEntity productEntity = repositoryClient.findById(id)
                     .orElseThrow(() -> new RuntimeException("Client not found with id: " + id));
@@ -34,7 +34,7 @@ public class RepositorySupport implements SupportProductPort {
     }
 
     @Override
-    public SupportProduct updateClient(SupportProduct product, Integer id) {
+    public SupportProduct updateProduct(SupportProduct product, Integer id) {
         if(product == null || id == null) {
             throw new IllegalArgumentException("Product and ID must not be null");
         }
@@ -43,13 +43,13 @@ public class RepositorySupport implements SupportProductPort {
     }
 
     @Override
-    public SupportProduct saveClient(SupportProduct product) {
+    public SupportProduct saveProduct(SupportProduct product) {
         ProductEntity clientEntity = mapperProductEntity.modelToEntity(product);
         return mapperProductEntity.entityToModel(repositoryClient.save(clientEntity));
     }
 
     @Override
-    public String deleteClient(Integer id) {
+    public String deleteProduct(Integer id) {
         try {
             repositoryClient.deleteById(id);
             return "Client with ID " + id + " deleted successfully.";
@@ -59,7 +59,7 @@ public class RepositorySupport implements SupportProductPort {
     }
 
     @Override
-    public List<SupportProduct> findClientByName(String identificationNumber) {
+    public List<SupportProduct> findProductByName(String identificationNumber) {
         List<ProductEntity> productEntity = repositoryClient.buscarPorNombreODescripcion(identificationNumber);
         if (productEntity == null) {
             throw new RuntimeException("Client not found with name: " + identificationNumber);

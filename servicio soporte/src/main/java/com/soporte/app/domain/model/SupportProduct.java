@@ -6,19 +6,25 @@ public class SupportProduct{
     private Integer id;
     private String name;
     private String code;
-    private String quantity;
+    private Integer quantity;
     private Float unitPrice;
     private String supplierId;
+    private String category;
     private LocalDate creationDate;
 
-    public SupportProduct(Integer id, String name, String code, String quantity, Float unitPrice, String supplierId) {
+
+    public SupportProduct(Integer id, String name, String code, Integer quantity, Float unitPrice, String supplierId, String category) {
         this.id = id;
         this.name = name;
         this.code = code;
         this.quantity = quantity;
         this.unitPrice = unitPrice;
         this.supplierId = supplierId;
+        this.category = category;
         this.creationDate = LocalDate.now();
+    }
+
+    public SupportProduct() {
     }
 
     public Integer getId() {
@@ -45,11 +51,11 @@ public class SupportProduct{
         this.code = code;
     }
 
-    public String getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(String quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
@@ -76,4 +82,12 @@ public class SupportProduct{
     public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
     }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+}
 }

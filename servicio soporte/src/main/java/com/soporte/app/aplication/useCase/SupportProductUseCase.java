@@ -1,9 +1,9 @@
 package com.soporte.app.aplication.useCase;
 
-import com.soporte.app.aplication.out.SupportProductPort;
+import com.soporte.app.domain.port.out.SupportProductPort;
 import com.soporte.app.domain.model.SupportProduct;
-import com.soporte.app.domain.servicio.ServiceSupportProduct;
-import com.soporte.app.infrastructure.controller.dto.ResponseSupportProduct;
+import com.soporte.app.utils.Function;
+import com.soporte.app.infrastructure.controller.dto.response.ResponseSupportProduct;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,64 +14,65 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class SupportProductUseCase {
 
-    private final SupportProductPort clientRepositoryPort;
-    private final ServiceSupportProduct serviceSupportProduct;
+    private final SupportProductPort productRepositoryPort;
+    private final Function serviceSupportProduct;
 
-    public List<ResponseSupportProduct> getAllClients() {
-        List<SupportProduct>  clients = clientRepositoryPort.findAllProduct();
-        if (clients == null || clients.isEmpty()) {
-            throw new RuntimeException("No clients found");
+    public List<ResponseSupportProduct> getAllProducts() {
+        List<SupportProduct>  products = productRepositoryPort.findAllProduct();
+        if (products == null || products.isEmpty()) {
+            throw new RuntimeException("No products found");
         }
-        return clients.stream()
-                .map(client -> {
+        return products.stream()
+                .map(product -> {
                     return new ResponseSupportProduct(
-                            client.getId(),
-                            client.getName(),
-                            client.getCode(),
-                            client.getQuantity(),
-                            client.getUnitPrice(),
-                            client.getSupplierId()
+                            product.getId(),
+                            product.getName(),
+                            product.getCode(),
+                            product.getQuantity(),
+                            product.getUnitPrice(),
+                            product.getSupplierId(),
+                            product.getCategory()
                     );
                 })
                 .collect(Collectors.toList());
     }
 
-    public ResponseSupportProduct getClientById(Integer id) {
-        SupportProduct client = clientRepositoryPort.findClientById(id);
-        if (client == null) {
-            throw new RuntimeException("Client not found with id: " + id);
+    public ResponseSupportProduct getProductById(Integer id) {
+        SupportProduct product = productRepositoryPort.findProductById(id);
+        if (product == null) {
+            throw new RuntimeException("Product not found with id: " + id);
         }
-        return serviceSupportProduct.getResponseSupportProduct(client);
+        return serviceSupportProduct.getResponseSupportProduct(product);
     }
 
     public ResponseSupportProduct addProduct(SupportProduct supportProduct) {
         if (supportProduct == null) {
-            throw new IllegalArgumentException("Client details cannot be null");
+            throw new IllegalArgumentException("Product details cannot be null");
         }
-        SupportProduct result = clientRepositoryPort.saveClient(supportProduct);
+        SupportProduct result = productRepositoryPort.saveProduct(supportProduct);
         return serviceSupportProduct.getResponseSupportProduct(result);
     }
 
     public ResponseSupportProduct updateProduct(Integer id, SupportProduct supportProduct) {
-        SupportProduct clientUpdate = clientRepositoryPort.updateClient(supportProduct, id);
-        if (clientUpdate == null) {
+        SupportProduct productUpdate = productRepositoryPort.updateProduct(supportProduct, id);
+        if (productUpdate == null) {
             throw new RuntimeException("Client not found with id: " + id);
         }
-        return serviceSupportProduct.getResponseSupportProduct(clientUpdate);
+        return serviceSupportProduct.getResponseSupportProduct(productUpdate);
     }
 
-    public String deleteClient(Integer id) {
+    public String deleteProduct(Integer id) {
         if (id == null) {
             throw new IllegalArgumentException("Client ID cannot be null");
         }
-        return clientRepositoryPort.deleteClient(id);
+        return productRepositoryPort.deleteProduct(id);
     }
 
-    public List<ResponseSupportProduct> filterClientByName(String name) {
+    public List<ResponseSupportProduct> filterByName(String name) {
         if (name == null || name.isEmpty()) {
-            throw new IllegalArgumentException("Client name cannot be null or empty");
+            throw new IllegalArgumentException("product name cannot be null or empty");
         }
-        List<SupportProduct> supportProduct = clientRepositoryPort.findClientByName(name);
+        List<SupportProduct> supportProduct = productRepositoryPort.findProductByName(name);
         return supportProduct.stream()
                 .map(product -> new ResponseSupportProduct(
                         product.getId(),
@@ -79,23 +80,23 @@ public class SupportProductUseCase {
                         product.getCode(),
                         product.getQuantity(),
                         product.getUnitPrice(),
-                        product.getSupplierId()
-
+                        product.getSupplierId(),
+                        product.getCategory()
                 ))
                 .collect(Collectors.toList());
     }
 
     public List<ResponseSupportProduct> getProductByOrderAsc(boolean orderAsc) {
-    List<SupportProduct> clients = clientRepositoryPort.findAllProduct();
-        if (clients == null || clients.isEmpty()) {
-            throw new RuntimeException("No clients found");
+    List<SupportProduct> product = productRepositoryPort.findAllProduct();
+        if (product == null || product.isEmpty()) {
+            throw new RuntimeException("No products found");
         }
         if (orderAsc) {
-            clients.sort((c1, c2) -> c1.getName().compareTo(c2.getName()));
+            product.sort((c1, c2) -> c1.getName().compareTo(c2.getName()));
         } else {
-            clients.sort((c1, c2) -> c2.getName().compareTo(c1.getName()));
+            product.sort((c1, c2) -> c2.getName().compareTo(c1.getName()));
         }
-        return clients.stream()
+        return product.stream()
                 .map(client -> {
                     return new ResponseSupportProduct(
                             client.getId(),
@@ -103,8 +104,8 @@ public class SupportProductUseCase {
                             client.getCode(),
                             client.getQuantity(),
                             client.getUnitPrice(),
-                            client.getSupplierId()
-
+                            client.getSupplierId(),
+                            client.getCategory()
                     );
                 })
                 .collect(Collectors.toList());
@@ -114,7 +115,7 @@ public class SupportProductUseCase {
         if (startRange == null || endRange == null || startRange < 0 || endRange < 0) {
             throw new IllegalArgumentException("Price cannot be null or empty");
         }
-        List<SupportProduct> products = clientRepositoryPort.findProductByPrice(startRange, endRange);
+        List<SupportProduct> products = productRepositoryPort.findProductByPrice(startRange, endRange);
         return products.stream()
                 .map(product -> new ResponseSupportProduct(
                         product.getId(),
@@ -122,7 +123,8 @@ public class SupportProductUseCase {
                         product.getCode(),
                         product.getQuantity(),
                         product.getUnitPrice(),
-                        product.getSupplierId()
+                        product.getSupplierId(),
+                        product.getCategory()
 
                 ))
                 .collect(Collectors.toList());

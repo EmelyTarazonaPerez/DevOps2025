@@ -1,11 +1,12 @@
 package co.com.clientauth.api;
+import co.com.clientauth.model.user.User;
 import co.com.clientauth.usecase.auth.UseCaseAuthUseCase;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * API Rest controller.
@@ -36,5 +37,13 @@ public class ApiRest {
             // Handle exceptions appropriately
             return ResponseEntity.status(500).body("Internal Server Error: " + e.getMessage());
         }
+    }
+
+    @PostMapping(path = "/register")
+    public ResponseEntity<String> registerUser(@RequestBody String userJson) throws JsonProcessingException {
+            ObjectMapper mapper = new ObjectMapper();
+            User user = mapper.readValue(userJson, User.class);
+            useCaseAuthUseCase.userRegister(user);
+            return ResponseEntity.ok("User registered successfully");
     }
 }

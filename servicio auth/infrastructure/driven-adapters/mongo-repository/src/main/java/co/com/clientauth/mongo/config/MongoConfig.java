@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.mongo.PropertiesMongoConnectionDet
 import org.springframework.boot.ssl.SslBundles;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
 
 @Configuration
 public class MongoConfig {

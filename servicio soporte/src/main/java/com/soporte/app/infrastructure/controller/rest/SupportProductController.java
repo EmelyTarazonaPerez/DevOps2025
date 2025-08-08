@@ -1,8 +1,8 @@
 package com.soporte.app.infrastructure.controller.rest;
 
 import com.soporte.app.aplication.useCase.SupportProductUseCase;
-import com.soporte.app.infrastructure.controller.dto.RequestSupportProduct;
-import com.soporte.app.infrastructure.controller.dto.ResponseSupportProduct;
+import com.soporte.app.infrastructure.controller.dto.request.RequestSupportProduct;
+import com.soporte.app.infrastructure.controller.dto.response.ResponseSupportProduct;
 
 import com.soporte.app.infrastructure.controller.mapping.IMapperProduct;
 import lombok.AllArgsConstructor;
@@ -23,7 +23,7 @@ public class SupportProductController {
 
     @GetMapping
     public ResponseEntity<List<ResponseSupportProduct>> getAll() {
-        List<ResponseSupportProduct> result = serviceSupportProduct.getAllClients();
+        List<ResponseSupportProduct> result = serviceSupportProduct.getAllProducts();
         if (result.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
@@ -33,7 +33,7 @@ public class SupportProductController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getProductById(@PathVariable Integer id) {
             try {
-                ResponseSupportProduct result = serviceSupportProduct.getClientById(id);
+                ResponseSupportProduct result = serviceSupportProduct.getProductById(id);
                 return ResponseEntity.ok(result); // 200 OK
             } catch (RuntimeException e) {
                 Map<String, String> error = new HashMap<>();
@@ -65,9 +65,9 @@ public class SupportProductController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteClient(@PathVariable Integer id) {
+    public ResponseEntity<String> deleteProducto(@PathVariable Integer id) {
         try {
-            return ResponseEntity.ok(serviceSupportProduct.deleteClient(id));
+            return ResponseEntity.ok(serviceSupportProduct.deleteProduct(id));
         } catch (RuntimeException e) {
             return new ResponseEntity<>(
                     HttpStatus.NOT_FOUND); // 404 Not Found;
@@ -75,9 +75,9 @@ public class SupportProductController {
     }
 
     @GetMapping("/filter/{name}")
-    public ResponseEntity<List<ResponseSupportProduct>> getClientByName(@PathVariable String name) {
+    public ResponseEntity<List<ResponseSupportProduct>> getClientByProduct(@PathVariable String name) {
         try {
-            return ResponseEntity.ok(serviceSupportProduct.filterClientByName(name));
+            return ResponseEntity.ok(serviceSupportProduct.filterByName(name));
         } catch (RuntimeException e) {
             return new ResponseEntity<>(
                     HttpStatus.NOT_FOUND);

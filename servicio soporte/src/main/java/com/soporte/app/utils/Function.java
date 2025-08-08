@@ -1,15 +1,14 @@
-package com.soporte.app.domain.servicio;
+package com.soporte.app.utils;
 
 import com.soporte.app.domain.model.SupportProduct;
-import com.soporte.app.infrastructure.controller.dto.RequestSupportProduct;
-import com.soporte.app.infrastructure.controller.dto.ResponseSupportProduct;
+import com.soporte.app.infrastructure.controller.dto.response.ResponseSupportProduct;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 
 @Service
 @AllArgsConstructor
-public class ServiceSupportProduct {
+public class Function {
 
     public ResponseSupportProduct getResponseSupportProduct(SupportProduct request) {
         return new ResponseSupportProduct(
@@ -18,7 +17,8 @@ public class ServiceSupportProduct {
                 request.getCode(),
                 request.getQuantity(),
                 request.getUnitPrice(),
-                request.getSupplierId()
+                request.getSupplierId(),
+                request.getCategory()
         );
     }
 
@@ -26,10 +26,10 @@ public class ServiceSupportProduct {
         return new SupportProduct(request.getId(),
                 request.getName(),
                 request.getCode(),
-                request.getCantity(),
+                request.getQuantity(),
                 request.getUnitPrice(),
-                request.getSupplierId()
-
+                request.getSupplierId(),
+                request.getCategory()
         );
     }
 }

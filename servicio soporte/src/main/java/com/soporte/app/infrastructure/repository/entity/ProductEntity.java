@@ -5,27 +5,33 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
+@Setter
+@Getter
 @Entity
-@Data
 @Table(name = "producto")
 public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name="nombre")
+    @Column(name = "nombre")
     private String name;
-    @Column(name="codigo")
+    @Column(name = "codigo")
     private String code;
-    @Column(name="cantidad")
-    private String quantity;
-    @Column(name="precio_unidad")
+    @Column(name = "cantidad")
+    private Integer quantity;
+    @Column(name = "precio_unidad")
     private Float unitPrice;
-    @Column(name="id_proveedor")
-    private String supplierId;
-    @Column(name="fecha_creacion")
-    private LocalDate creationDate;
+    @Column(name = "id_proveedor")
+    private Integer supplierId;
+    @Column(name = "fecha_creacion")
+    private LocalDateTime creationDate;
+    @Column(name = "id_categoria")
+    private Integer category;
 
     public Integer getId() {
         return id;
@@ -51,11 +57,11 @@ public class ProductEntity {
         this.code = code;
     }
 
-    public String getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(String quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
@@ -67,19 +73,42 @@ public class ProductEntity {
         this.unitPrice = unitPrice;
     }
 
-    public String getSupplierId() {
+    public Integer getSupplierId() {
         return supplierId;
     }
 
-    public void setSupplierId(String supplierId) {
+    public void setSupplierId(Integer supplierId) {
         this.supplierId = supplierId;
     }
 
-    public LocalDate getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(LocalDate creationDate) {
+    public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
+
+    public Integer getCategory() {
+        return category;
+    }
+
+    public void setCategory(Integer category) {
+        this.category = category;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", code='" + code + '\'' +
+                ", quantity=" + quantity +
+                ", unitPrice=" + unitPrice +
+                ", supplierId=" + supplierId +
+                ", creationDate=" + creationDate +
+                ", category=" + category +
+                '}';
+    }
+
 }

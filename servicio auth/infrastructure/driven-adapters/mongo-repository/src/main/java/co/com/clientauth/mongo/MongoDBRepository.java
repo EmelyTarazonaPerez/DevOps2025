@@ -5,5 +5,5 @@ import org.springframework.data.repository.query.ReactiveQueryByExampleExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MongoDBRepository extends ReactiveMongoRepository<Object, String>, ReactiveQueryByExampleExecutor<Object> {
+public interface MongoDBRepository extends ReactiveMongoRepository<UserEntity, String>, ReactiveQueryByExampleExecutor<UserEntity> {
 }

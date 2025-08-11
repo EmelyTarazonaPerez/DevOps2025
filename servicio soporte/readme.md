@@ -1,35 +1,73 @@
-## 🧩 Event Storming - Carrito y Catálogo
+## 📌 Event Storming - Servicio de Soporte
 
-### Eventos de Dominio Relevantes
-
+### 🔹 Eventos de Dominio más relevantes
 1. **Producto agregado al catálogo**  
-   _Cuando un nuevo producto se registra en el sistema._
+   Un administrador registra un nuevo producto en el sistema.
 
 2. **Producto actualizado**  
-   _Cuando cambian los datos de un producto (precio, descripción, etc.)._
+   Se modifican los datos de un producto existente (precio, stock, categoría, etc.).
 
-3. **Stock reducido por venta**  
-   _Cuando se confirma una compra y el stock del producto disminuye._
+3. **Producto eliminado**  
+   Un producto se retira del catálogo y ya no está disponible.
 
 4. **Carrito creado**  
-   _Cuando un cliente inicia un nuevo carrito de compras._
+   Se genera un nuevo carrito de compras para un cliente.
 
 5. **Producto agregado al carrito**  
-   _Cuando un cliente añade un producto al carrito._
+   Un cliente añade un producto a su carrito.
 
 6. **Producto removido del carrito**  
-   _Cuando un cliente quita un producto del carrito._
+   Un cliente quita un producto de su carrito.
 
 7. **Carrito pagado**  
-   _Cuando se realiza el pago y el carrito se cierra como completado._
+   El cliente finaliza la compra y el stock se ajusta.
 
-8. **Carrito marcado como abandonado**  
-   _Cuando pasa cierto tiempo sin actividad en el carrito y se marca como inactivo._
+---
 
-### 📢 Ejemplo de Evento de Dominio
+## 🏛 Dominios y Subdominios
+
+- **Dominio principal:** Soporte y gestión de ventas  
+- **Subdominios:**  
+  - Gestión de productos  
+  - Gestión de carritos  
+
+---
+
+## 🧩 Entidades
+
+- **Producto** (id, nombre, código, cantidad, precio, proveedor, categoría)  
+- **Carrito** (id, estado, idCliente, fechaActualización, detalles)  
+- **DetalleCarrito** (id, producto, cantidad, precioUnitario)  
+
+---
+
+## 🎯 Value Objects
+
+1. **PrecioUnitario** → valor monetario que representa el costo de un producto.  
+2. **Cantidad** → número de unidades solicitadas o disponibles.  
+3. **CódigoProducto** → identificador único del producto en el catálogo.  
+
+---
+
+## 📦 Bounded Context: Gestión de Productos
+
+**Descripción:**  
+Este contexto se encarga de la administración del catálogo de productos, incluyendo altas, bajas, modificaciones y consultas.  
+
+**Lenguaje Ubicuo:**  
+- "Catálogo" → conjunto de productos disponibles.  
+- "Agregar producto" → registrar un nuevo artículo en el catálogo.  
+- "Actualizar producto" → modificar los datos de un artículo existente.  
+- "Eliminar producto" → retirar un producto del catálogo.  
+
+---
+
+## 📢 Ejemplo de Evento de Dominio
 
 **Nombre:** ProductoAgregadoAlCatalogo  
 **Descripción:** Ocurre cuando un nuevo producto es guardado en el catálogo de soporte.  
-**Causa:** Se crea un nuevo producto mediante el servicio `addProduct`.  
+**Causa:** El administrador crea un nuevo producto mediante el servicio `addProduct`.  
 **Consecuencia:**  
 - El producto queda disponible para ser consultado y agregado a carritos.  
+- Se puede notificar al resto de servicios que el catálogo cambió.
+

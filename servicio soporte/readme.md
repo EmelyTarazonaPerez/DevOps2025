@@ -28,9 +28,9 @@
 
 ### 📢 Ejemplo de Evento de Dominio
 
-**Nombre:** CarritoMarcadoComoAbandonado  
-**Descripción:** Se dispara cuando un carrito de compras permanece inactivo más allá del tiempo configurado en el sistema.  
-**Causa:** Falta de interacción del cliente (no agrega ni remueve productos ni avanza al pago).  
+**Nombre:** ProductoAgregadoAlCatalogo  
+**Descripción:** Ocurre cuando un nuevo producto es guardado en el catálogo de soporte.  
+**Causa:** Se crea un nuevo producto mediante el servicio `addProduct`.  
 **Consecuencia:**  
-- El carrito se marca con estado `"ABANDONADO"`.  
-- Se podría notificar al cliente para recuperar la compra.  
+- El producto queda disponible para ser consultado y agregado a carritos.  
+- Se puede notificar al resto de servicios que el catálogo cambió.

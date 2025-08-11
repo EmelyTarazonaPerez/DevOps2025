@@ -25,3 +25,12 @@
 
 8. **Carrito marcado como abandonado**  
    _Cuando pasa cierto tiempo sin actividad en el carrito y se marca como inactivo._
+
+### 📢 Ejemplo de Evento de Dominio
+
+**Nombre:** CarritoMarcadoComoAbandonado  
+**Descripción:** Se dispara cuando un carrito de compras permanece inactivo más allá del tiempo configurado en el sistema.  
+**Causa:** Falta de interacción del cliente (no agrega ni remueve productos ni avanza al pago).  
+**Consecuencia:**  
+- El carrito se marca con estado `"ABANDONADO"`.  
+- Se podría notificar al cliente para recuperar la compra.  

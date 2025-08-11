@@ -33,4 +33,3 @@
 **Causa:** Se crea un nuevo producto mediante el servicio `addProduct`.  
 **Consecuencia:**  
 - El producto queda disponible para ser consultado y agregado a carritos.  
-- Se puede notificar al resto de servicios que el catálogo cambió.

@@ -1,4 +1,4 @@
-# 🏗️ Análisis de Bounded Contexts en Proyecto SOPORTE
+# Análisis de Bounded Contexts en Proyecto SOPORTE
 
 ## 📋 Definición de Bounded Context
 Un **Bounded Context** es un límite dentro del cual un modelo de dominio tiene un significado preciso. Cada contexto mantiene su propio lenguaje ubicuo, evitando ambigüedad y acoplamiento excesivo.

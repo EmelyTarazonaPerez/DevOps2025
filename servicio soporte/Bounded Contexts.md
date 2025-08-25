@@ -38,3 +38,29 @@ infrastructure/repository/
 ├── IRepositorySupportProduct.java
 ├── IRepositorySupportCategory.java
 ├── IRepositorySupportSupplier.java
+
+
+
+
+**🔑 Conceptos Únicos:**
+- **Product:** Identificado por código, con precio y stock.  
+- **Category:** Agrupación lógica de productos.  
+- **Supplier:** Entidad externa que provee los productos.  
+
+---
+
+### 🛒 2. ORDER MANAGEMENT CONTEXT (Gestión de Órdenes)
+
+**🎯 Responsabilidad:** Manejo de órdenes y carritos.
+
+**📦 Entidades Principales:**
+- `CardModel` - Representa una orden o carrito en proceso.  
+- `CardProductModel` - Relación entre una orden y sus productos.  
+
+**🔄 Casos de Uso:**
+- Crear una orden.  
+- Agregar o quitar productos a una orden.  
+- Consultar estado de una orden.  
+
+**📁 Ubicación Actual:**
+

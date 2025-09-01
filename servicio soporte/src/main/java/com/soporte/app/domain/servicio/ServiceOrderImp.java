@@ -46,24 +46,24 @@ public class ServiceOrderImp {
         }
     }
 
-    private void validateProductDetails(CardProductModel detalle) {
-        if (detalle.getCantidad() == null || detalle.getCantidad() <= 0) {
+    private void validateProductDetails(CardProductModel detail) {
+        if (detail.getCantidad() == null || detail.getCantidad() <= 0) {
             throw new IllegalArgumentException(ConstantsMessages.ERROR_CANTIDAD_PRODUCTO);
         }
 
-        SupportProduct producto = detalle.getProduct();
-        if (producto == null) {
+        SupportProduct product = detail.getProduct();
+        if (product == null) {
             throw new IllegalArgumentException(ConstantsMessages.PRODUCTO_NO_DEFINIDO);
         }
 
-        Integer stockStr = producto.getQuantity();
+        Integer stockStr = product.getQuantity();
         if (stockStr == null || stockStr <= 0) {
             throw new IllegalArgumentException(ConstantsMessages.STOCK_NO_DISPONIBLE);
         }
 
-        int stockDisponible = stockStr;
-        if (stockDisponible < detalle.getCantidad()) {
-            throw new IllegalArgumentException(ConstantsMessages.STOCK_INSUFICIENTE + producto.getName() + ".");
+        int stockDisposable = stockStr;
+        if (stockDisposable < detail.getCantidad()) {
+            throw new IllegalArgumentException(ConstantsMessages.STOCK_INSUFICIENTE + product.getName() + ".");
         }
     }
 

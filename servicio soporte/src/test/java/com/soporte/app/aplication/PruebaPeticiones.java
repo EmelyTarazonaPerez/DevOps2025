@@ -3,7 +3,7 @@ package com.soporte.app.aplication;
 import com.soporte.app.aplication.useCase.SupportProductUseCase;
 import com.soporte.app.domain.model.SupportProduct;
 import com.soporte.app.domain.port.out.SupportProductPort;
-import com.soporte.app.infrastructure.controller.dto.response.ResponseSupportProduct;
+import com.soporte.app.infrastructure.adapter.in.web.dto.response.ResponseSupportProduct;
 import com.soporte.app.utils.Function;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

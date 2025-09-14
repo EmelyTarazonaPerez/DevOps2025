@@ -1,7 +1,8 @@
 package com.soporte.app.infrastructure.controller.rest;
 
 import com.soporte.app.aplication.useCase.SupportProductUseCase;
-import com.soporte.app.infrastructure.controller.dto.response.ResponseSupportProduct;
+import com.soporte.app.infrastructure.adapter.in.web.dto.response.ResponseSupportProduct;
+import com.soporte.app.infrastructure.adapter.in.web.rest.SupportProductController;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

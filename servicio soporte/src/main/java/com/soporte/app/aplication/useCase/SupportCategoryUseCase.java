@@ -2,7 +2,7 @@ package com.soporte.app.aplication.useCase;
 
 import com.soporte.app.domain.model.CategoryModel;
 import com.soporte.app.domain.port.out.SupportCategoryPort;
-import com.soporte.app.infrastructure.controller.dto.BodyResponse;
+import com.soporte.app.infrastructure.adapter.in.web.dto.response.BodyResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

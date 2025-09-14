@@ -3,7 +3,7 @@ package com.soporte.app.aplication.useCase;
 import com.soporte.app.domain.port.out.SupportProductPort;
 import com.soporte.app.domain.model.SupportProduct;
 import com.soporte.app.utils.Function;
-import com.soporte.app.infrastructure.controller.dto.response.ResponseSupportProduct;
+import com.soporte.app.infrastructure.adapter.in.web.dto.response.ResponseSupportProduct;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +37,7 @@ public class SupportProductUseCase {
                 .collect(Collectors.toList());
     }
 
-    public ResponseSupportProduct getProductById(Integer id) {
+    public ResponseSupportProduct getProductById(long id) {
         SupportProduct product = productRepositoryPort.findProductById(id);
         if (product == null) {
             throw new RuntimeException("Product not found with id: " + id);

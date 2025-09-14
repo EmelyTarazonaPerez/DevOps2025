@@ -3,7 +3,7 @@ package com.soporte.app.domain.servicio;
 import com.soporte.app.domain.model.CardModel;
 import com.soporte.app.domain.model.CardProductModel;
 import com.soporte.app.domain.model.SupportProduct;
-import com.soporte.app.infrastructure.controller.dto.request.RequestCard;
+import com.soporte.app.infrastructure.adapter.in.web.dto.request.RequestCard;
 
 import java.util.ArrayList;
 import java.util.List;

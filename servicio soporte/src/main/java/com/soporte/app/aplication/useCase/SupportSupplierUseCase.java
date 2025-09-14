@@ -2,12 +2,9 @@ package com.soporte.app.aplication.useCase;
 
 import com.soporte.app.domain.model.SupplierModel;
 import com.soporte.app.domain.port.out.SupportSupplierPort;
-import com.soporte.app.infrastructure.controller.dto.BodyResponse;
+import com.soporte.app.infrastructure.adapter.in.web.dto.response.BodyResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @Service
 @AllArgsConstructor

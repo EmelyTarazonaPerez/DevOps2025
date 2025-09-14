@@ -1,7 +1,7 @@
 package com.soporte.app.utils;
 
 import com.soporte.app.domain.model.SupportProduct;
-import com.soporte.app.infrastructure.controller.dto.response.ResponseSupportProduct;
+import com.soporte.app.infrastructure.adapter.in.web.dto.response.ResponseSupportProduct;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

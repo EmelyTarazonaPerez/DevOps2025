@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface SupportProductPort {
     List<SupportProduct> findAllProduct();
-    SupportProduct findProductById(Integer id);
+    SupportProduct findProductById(Long id);
     SupportProduct updateProduct(SupportProduct product, Integer id);
     SupportProduct saveProduct(SupportProduct product);
     String deleteProduct(Integer id);

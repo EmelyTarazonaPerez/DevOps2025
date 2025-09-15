@@ -39,7 +39,7 @@ public class SupportCardUseCase {
 
     public BodyResponse saveCard(RequestCard requestCard) {
         List<CardModel> cardsByUser = supportCardPort.findByIdCustomer(requestCard.getIdClient());
-        SupportProduct supportProduct = supportProductPort.findProductById(requestCard.getIdProduct());
+        SupportProduct supportProduct = supportProductPort.findProductById(Long.valueOf(requestCard.getIdProduct()));
 
         serviceCardImp.stockControl(supportProduct, requestCard.getQuantity(), false);
         CardModel activeCard = serviceCardImp.findCardActive(cardsByUser);
@@ -63,7 +63,7 @@ public class SupportCardUseCase {
         for (CardProductModel detail : details) {
             SupportProduct product = detail.getProduct();
             serviceCardImp.stockControl(product, detail.getCantidad(), true);
-            supportProductPort.updateProduct(product, product.getId());
+            supportProductPort.updateProduct(product, (long) Math.toIntExact(product.getId()));
         }
         cardModel.setState("ABANDONED");
         supportCardPort.saveCard(cardModel.getId(), cardModel);

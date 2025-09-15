@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -33,9 +34,9 @@ public class PruebaPeticiones {
     @Test
     void getAllProducts_ShouldReturnMappedList_WhenProductsExist() {
         // Arrange
-        SupportProduct product = new SupportProduct(1, "Producto", "001", 10, 100.0f, "1", "Electrónica");
+        SupportProduct product = new SupportProduct(1L, "Producto", "001", 10, BigDecimal.valueOf(100.0f), "1", "Electrónica");
         List<SupportProduct> productList = List.of(product);
-        ResponseSupportProduct response = new ResponseSupportProduct(1, "Producto", "001", 10, 100.0f, "1", "Electrónica");
+        ResponseSupportProduct response = new ResponseSupportProduct(1L, "Producto", "001", 10, BigDecimal.valueOf(100.0f), "1", "Electrónica");
 
         Mockito.when(productRepositoryPort.findAllProduct()).thenReturn(productList);
 
@@ -57,10 +58,10 @@ public class PruebaPeticiones {
     // getProductById()
     @Test
     void getProductById_ShouldReturnProduct_WhenExists() {
-        SupportProduct product = new SupportProduct(1, "Prod", "002", 5, 50.0f, "2", "Categoria");
-        ResponseSupportProduct response = new ResponseSupportProduct(1, "Prod", "002", 5, 50.0f, "2", "Categoria");
+        SupportProduct product = new SupportProduct(1L, "Prod", "002", 5, BigDecimal.valueOf(50.0f), "2", "Categoria");
+        ResponseSupportProduct response = new ResponseSupportProduct(1L, "Prod", "002", 5, BigDecimal.valueOf(50.0f), "2", "Categoria");
 
-        Mockito.when(productRepositoryPort.findProductById(1)).thenReturn(product);
+        Mockito.when(productRepositoryPort.findProductById(1L)).thenReturn(product);
         Mockito.when(serviceSupportProduct.getResponseSupportProduct(product)).thenReturn(response);
 
         ResponseSupportProduct result = productUseCase.getProductById(1);
@@ -70,7 +71,7 @@ public class PruebaPeticiones {
 
     @Test
     void getProductById_ShouldThrowException_WhenNotFound() {
-        Mockito.when(productRepositoryPort.findProductById(99)).thenReturn(null);
+        Mockito.when(productRepositoryPort.findProductById(99L)).thenReturn(null);
 
         assertThrows(RuntimeException.class, () -> productUseCase.getProductById(99));
     }
@@ -78,8 +79,8 @@ public class PruebaPeticiones {
     // addProduct()
     @Test
     void addProduct_ShouldSaveAndReturnProduct() {
-        SupportProduct input = new SupportProduct(1, "Nuevo", "003", 20, 200.0f, "3", "Categoria");
-        ResponseSupportProduct response = new ResponseSupportProduct(1, "Nuevo", "003", 20, 200.0f, "3", "Categoria");
+        SupportProduct input = new SupportProduct(1L, "Nuevo", "003", 20, BigDecimal.valueOf(200.0f), "3", "Categoria");
+        ResponseSupportProduct response = new ResponseSupportProduct(1L, "Nuevo", "003", 20, BigDecimal.valueOf(200.0f), "3", "Categoria");
 
         Mockito.when(productRepositoryPort.saveProduct(input)).thenReturn(input);
         Mockito.when(serviceSupportProduct.getResponseSupportProduct(input)).thenReturn(response);
@@ -97,22 +98,22 @@ public class PruebaPeticiones {
     // updateProduct()
     @Test
     void updateProduct_ShouldReturnUpdatedProduct() {
-        SupportProduct updated = new SupportProduct(1, "Editado", "004", 15, 150.0f, "4", "Categoria");
-        ResponseSupportProduct response = new ResponseSupportProduct(1, "Editado", "004", 15, 150.0f, "4", "Categoria");
+        SupportProduct updated = new SupportProduct(1L, "Editado", "004", 15, BigDecimal.valueOf(150.0), "4", "Categoria");
+        ResponseSupportProduct response = new ResponseSupportProduct(1L, "Editado", "004", 15, BigDecimal.valueOf(150.0), "4", "Categoria");
 
-        Mockito.when(productRepositoryPort.updateProduct(updated, 1)).thenReturn(updated);
+        Mockito.when(productRepositoryPort.updateProduct(updated, 1L)).thenReturn(updated);
         Mockito.when(serviceSupportProduct.getResponseSupportProduct(updated)).thenReturn(response);
 
-        ResponseSupportProduct result = productUseCase.updateProduct(1, updated);
+        ResponseSupportProduct result = productUseCase.updateProduct(1L, updated);
 
         assertEquals("Editado", result.getName());
     }
 
     @Test
     void updateProduct_ShouldThrowException_WhenUpdateFails() {
-        Mockito.when(productRepositoryPort.updateProduct(Mockito.any(), Mockito.eq(1))).thenReturn(null);
+        Mockito.when(productRepositoryPort.updateProduct(Mockito.any(), Mockito.eq(1L))).thenReturn(null);
 
-        assertThrows(RuntimeException.class, () -> productUseCase.updateProduct(1, new SupportProduct()));
+        assertThrows(RuntimeException.class, () -> productUseCase.updateProduct(1L, new SupportProduct()));
     }
 
     // deleteProduct()

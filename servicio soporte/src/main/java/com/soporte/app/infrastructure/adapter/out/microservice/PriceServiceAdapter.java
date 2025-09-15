@@ -26,7 +26,7 @@ public class PriceServiceAdapter implements PriceServicePort {
     private final String cotizadorBaseUrl;
     
     public PriceServiceAdapter(RestTemplate restTemplate,
-                                  @Value("${microservices.cotizador.url}") String cotizadorBaseUrl) {
+                               @Value("${microservices.arca-cotizador.url}") String cotizadorBaseUrl) {
         this.restTemplate = restTemplate;
         this.cotizadorBaseUrl = cotizadorBaseUrl;
     }
@@ -37,9 +37,9 @@ public class PriceServiceAdapter implements PriceServicePort {
             try {
                 logger.info("Creando cotización para cliente: {}", request.getCustomerId());
                 
-                String url = cotizadorBaseUrl + "/api/cotizaciones";
+                String url = cotizadorBaseUrl + "/cotizaciones";
                 HttpEntity<CotizacionRequestDto> entity = new HttpEntity<>(request);
-                
+                System.out.println(entity);
                 ResponseEntity<CotizacionResponseDto> response = restTemplate.exchange(
                     url, HttpMethod.POST, entity, CotizacionResponseDto.class);
                 
@@ -62,7 +62,8 @@ public class PriceServiceAdapter implements PriceServicePort {
             try {
                 logger.info("Obteniendo cotización: {}", cotizacionId);
                 
-                String url = cotizadorBaseUrl + "/api/cotizaciones/{id}";
+                String url = cotizadorBaseUrl + "/cotizaciones/{id}";
+                System.out.println(url);
                 ResponseEntity<CotizacionResponseDto> response = restTemplate.getForEntity(url, CotizacionResponseDto.class, cotizacionId);
                 
                 logger.info("Cotización obtenida exitosamente: {}", cotizacionId);
@@ -74,41 +75,44 @@ public class PriceServiceAdapter implements PriceServicePort {
             }
         });
     }
-    
+
     @Override
-    public CompletableFuture<List<CotizacionResponseDto>> obtenerCotizacionesPorCliente(Long customerId) {
+    public CompletableFuture<List<CotizacionResponseDto>> obtenerCotizacionesPorCliente(String customerId) {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 logger.info("Obteniendo cotizaciones para cliente: {}", customerId);
-                
-                String url = cotizadorBaseUrl + "/api/cotizaciones/cliente/{customerId}";
+
+                String url = cotizadorBaseUrl + "/cotizaciones/{customerId}";
                 ResponseEntity<List<CotizacionResponseDto>> response = restTemplate.exchange(
-                    url, HttpMethod.GET, null, new ParameterizedTypeReference<List<CotizacionResponseDto>>(){}, customerId);
-                
+                        url, HttpMethod.GET, null,
+                        new ParameterizedTypeReference<List<CotizacionResponseDto>>() {},
+                        customerId
+                );
+
                 List<CotizacionResponseDto> result = response.getBody();
                 if (result != null) {
                     logger.info("Obtenidas {} cotizaciones para cliente {}", result.size(), customerId);
                 }
                 return result;
-                
+
             } catch (RestClientException ex) {
                 logger.error("Error al obtener cotizaciones para cliente {}: {}", customerId, ex.getMessage());
                 throw new RuntimeException("Error al comunicarse con el servicio de cotización: " + ex.getMessage(), ex);
             }
         });
     }
-    
+
+
     @Override
     public CompletableFuture<CotizacionResponseDto> actualizarEstadoCotizacion(String cotizacionId, String nuevoEstado) {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 logger.info("Actualizando estado de cotización {} a: {}", cotizacionId, nuevoEstado);
                 
-                String url = cotizadorBaseUrl + "/api/cotizaciones/{id}/estado";
-                HttpEntity<String> entity = new HttpEntity<>(nuevoEstado);
-                
+                String url = cotizadorBaseUrl + "/cotizaciones/{id}/estado?nuevoEstado={estado}";
+
                 ResponseEntity<CotizacionResponseDto> response = restTemplate.exchange(
-                    url, HttpMethod.PATCH, entity, CotizacionResponseDto.class, cotizacionId);
+                    url, HttpMethod.PUT, null, CotizacionResponseDto.class, cotizacionId, nuevoEstado);
                 
                 logger.info("Estado de cotización actualizado exitosamente: {}", cotizacionId);
                 return response.getBody();

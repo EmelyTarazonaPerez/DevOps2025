@@ -18,3 +18,23 @@ arca:
   cotizador:
     debug-mode: true
     mock-providers: true
+
+# Configuración de URLs de microservicios externos
+microservices:
+  # ✅ MODIFICADO: URL del microservicio de cotización
+  arca-cotizador:
+    url: http://localhost:8080/api/v1/cotizaciones
+  # ✅ MODIFICADO: URL del microservicio de gestión de solicitudes
+  gestor-solicitudes:
+    url: http://localhost:8081/api/v1/solicitudes
+  arka:
+    url: http://localhost:8083
+
+  # ✅ AGREGADO: Configuración de reintentos
+  retries:
+    max-attempts: 3
+    backoff-delay: 2000
+
+  timeout:
+    connection: 5000
+    read: 10000

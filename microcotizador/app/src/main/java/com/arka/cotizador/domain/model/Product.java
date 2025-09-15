@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Product {
-    private Integer id;
+    private Long id;
     private String name;
     private String code;
     private Integer quantity;
@@ -15,7 +15,7 @@ public class Product {
     private LocalDate creationDate;
 
 
-    public Product (Integer id, String name, String code, Integer quantity,
+    public Product (Long id, String name, String code, Integer quantity,
                     BigDecimal unitPrice, String supplierId, String category,
                     Integer stock) {
         this.id = id;
@@ -28,11 +28,11 @@ public class Product {
         this.creationDate = LocalDate.now();
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

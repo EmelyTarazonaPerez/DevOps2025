@@ -22,7 +22,7 @@ public class CotizacionRequestDto {
     @Data
     public static class ProductoCotizacionDto {
         private String productId;
-        private String nombre;
+        private String nombreProducto;
         private BigDecimal precioBase;
         private Integer cantidad;
         
@@ -30,7 +30,7 @@ public class CotizacionRequestDto {
 
         public ProductoCotizacionDto(String productId, String nombre, BigDecimal precioUnitario, Integer cantidad) {
             this.productId = productId;
-            this.nombre = nombre;
+            this.nombreProducto = nombre;
             this.precioBase = precioUnitario;
             this.cantidad = cantidad;
         }

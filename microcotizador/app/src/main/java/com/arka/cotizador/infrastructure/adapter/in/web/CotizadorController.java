@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/cotizador")
+@RequestMapping("/cotizador")
 @CrossOrigin(origins = "*")
 public class CotizadorController {
 

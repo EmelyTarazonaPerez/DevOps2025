@@ -4,14 +4,16 @@ import java.math.BigDecimal;
 
 public class ProductoSolicitado {
     private Long productoId;
+    private String nombreProducto;
     private Integer cantidad;
     private BigDecimal precioBase;
     private String observaciones;
 
     public ProductoSolicitado() {}
 
-    public ProductoSolicitado(Long productoId, Integer cantidad, BigDecimal precioBase, String observaciones) {
+    public ProductoSolicitado(Long productoId, String nombreProducto, Integer cantidad, BigDecimal precioBase, String observaciones) {
         this.productoId = productoId;
+        this.nombreProducto = nombreProducto;
         this.cantidad = cantidad;
         this.precioBase = precioBase;
         this.observaciones = observaciones;
@@ -24,6 +26,14 @@ public class ProductoSolicitado {
 
     public void setProductoId(Long productoId) {
         this.productoId = productoId;
+    }
+
+    public String getNombreProducto() {
+        return nombreProducto;
+    }
+
+    public void setNombreProducto(String nombreProducto) {
+        this.nombreProducto = nombreProducto;
     }
 
     public Integer getCantidad() {

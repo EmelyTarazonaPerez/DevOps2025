@@ -31,9 +31,9 @@ public class CotizacionController {
     
     @PostMapping("/cliente/{customerId}/productos")
     public CompletableFuture<ResponseEntity<CotizacionResponseDto>> solicitarCotizacionProductos(
-            @PathVariable Long customerId,
+            @PathVariable(name = "customerId") Long customerId,
             @RequestBody List<Long> productIds,
-            @RequestParam(defaultValue = "REGULAR") String tipoCliente) {
+            @RequestParam(name = "tipoCliente", defaultValue = "REGULAR") String tipoCliente) {
         
         logger.info("Solicitud de cotización para cliente {} con productos: {}", customerId, productIds);
         
@@ -58,7 +58,7 @@ public class CotizacionController {
     
     @GetMapping("/cliente/{customerId}")
     public CompletableFuture<ResponseEntity<List<CotizacionResponseDto>>> obtenerCotizacionesCliente(
-            @PathVariable Long customerId) {
+            @PathVariable("customerId") String customerId) {
         
         logger.info("Obteniendo cotizaciones para cliente: {}", customerId);
         
@@ -72,7 +72,7 @@ public class CotizacionController {
     
     @GetMapping("/{cotizacionId}")
     public CompletableFuture<ResponseEntity<CotizacionResponseDto>> obtenerCotizacion(
-            @PathVariable String cotizacionId) {
+            @PathVariable("cotizacionId") String cotizacionId) {
         
         logger.info("Obteniendo cotización: {}", cotizacionId);
         
@@ -84,9 +84,9 @@ public class CotizacionController {
             });
     }
     
-    @PatchMapping("/{cotizacionId}/estado")
+    @PutMapping("/{cotizacionId}/estado")
     public CompletableFuture<ResponseEntity<CotizacionResponseDto>> actualizarEstadoCotizacion(
-            @PathVariable String cotizacionId,
+            @PathVariable("cotizacionId") String cotizacionId,
             @RequestBody String nuevoEstado) {
         
         logger.info("Actualizando estado de cotización {} a: {}", cotizacionId, nuevoEstado);

@@ -3,8 +3,6 @@ package com.soporte.app.infrastructure.adapter.out.repository.mapping;
 
 import com.soporte.app.domain.model.*;
 import com.soporte.app.infrastructure.adapter.out.repository.entity.*;
-import com.soporte.app.infrastructure.adapter.repository.entity.*;
-import com.soporte.app.infrastructure.repository.entity.*;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

@@ -10,7 +10,7 @@ public interface PriceServicePort {
 
     CompletableFuture<CotizacionResponseDto> crearCotizacion(CotizacionRequestDto request);
 
-    CompletableFuture<List<CotizacionResponseDto>> obtenerCotizacionesPorCliente(Long customerId);
+    CompletableFuture<List<CotizacionResponseDto>> obtenerCotizacionesPorCliente(String customerId);
 
     CompletableFuture<CotizacionResponseDto> obtenerCotizacion(String cotizacionId);
 

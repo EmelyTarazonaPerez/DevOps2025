@@ -7,7 +7,7 @@ import com.arka.cotizador.domain.model.Product;
 import com.arka.cotizador.domain.model.ProductoCotizado;
 import com.arka.cotizador.domain.model.ProductoSolicitado;
 import com.arka.cotizador.domain.port.in.CotizadorUseCase;
-import com.arka.cotizador.domain.port.out.CalculadoraPreciosPort;
+import com.arka.cotizador.domain.service.CalculadoraPrecios;
 import com.arka.cotizador.domain.port.out.CotizacionRepositoryPort;
 import com.arka.cotizador.domain.port.out.ProductoServicePort;
 import org.springframework.stereotype.Service;
@@ -23,11 +23,11 @@ public class CotizadorApplicationService implements CotizadorUseCase {
 
     private final CotizacionRepositoryPort cotizacionRepository;
     private final ProductoServicePort productoService;
-    private final CalculadoraPreciosPort calculadoraPrecios;
+    private final CalculadoraPrecios calculadoraPrecios;
 
     public CotizadorApplicationService(CotizacionRepositoryPort cotizacionRepository,
                                        ProductoServicePort productoService,
-                                       CalculadoraPreciosPort calculadoraPrecios) {
+                                       CalculadoraPrecios calculadoraPrecios) {
         this.cotizacionRepository = cotizacionRepository;
         this.productoService = productoService;
         this.calculadoraPrecios = calculadoraPrecios;
@@ -37,67 +37,48 @@ public class CotizadorApplicationService implements CotizadorUseCase {
     public CotizacionResponse generarCotizacion(CotizacionRequest request) {
         // Generar ID único para la cotización
         String cotizacionId = UUID.randomUUID().toString();
-        
-        // Obtener información de productos solicitados
-        List<Long> productosIds = request.getProductos().stream()
-                .map(ProductoSolicitado::getProductoId)
-                .toList();
-        
-        List<Product> productos = productoService.obtenerProductosPorIds(productosIds);
-        
-        // Procesar cada producto y calcular precios
+
+        // Lista de productos cotizados
         List<ProductoCotizado> productosCotizados = new ArrayList<>();
         BigDecimal subtotal = BigDecimal.ZERO;
-        
+
         for (ProductoSolicitado productSolicitud : request.getProductos()) {
-            Product producto = productos.stream()
-                    .filter(p -> p.getId().equals(productSolicitud.getProductoId()))
-                    .findFirst()
-                    .orElse(null);
-            
-            if (producto != null) {
-                // Verificar disponibilidad
-                boolean disponible = productoService.verificarDisponibilidad(
-                        producto.getId(), 
-                        productSolicitud.getCantidad()
-                );
-                
-                // Calcular precios
-                BigDecimal precioConDescuento = calculadoraPrecios.calcularPrecioConDescuento(
-                        producto.getUnitPrice(),
-                        productSolicitud.getCantidad(),
-                        request.getTipoCliente()
-                );
-                
-                BigDecimal subtotalProducto = precioConDescuento.multiply(
-                        BigDecimal.valueOf(productSolicitud.getCantidad())
-                );
-                
-                ProductoCotizado productoCotizado = new ProductoCotizado(
-                        producto.getId(),
-                        producto.getName(),
-                        "Descripción del producto",
-                        producto.getQuantity(),
-                        producto.getUnitPrice(),
-                        precioConDescuento,
-                        null,
-                        subtotalProducto,
-                        disponible ? "DISPONIBLE" : "NO DISPONIBLE",
-                        disponible,
-                        disponible ? 5 : 15 // días de entrega
+            if (productSolicitud == null) continue;
 
-                );
+            BigDecimal precioUnitario = productSolicitud.getPrecioBase();
+            BigDecimal subtotalProducto = precioUnitario.multiply(BigDecimal.valueOf(productSolicitud.getCantidad()));
+            BigDecimal precioConDescuento = calculadoraPrecios.calcularPrecioConDescuento(
+                    precioUnitario,
+                    productSolicitud.getCantidad(),
+                    request.getTipoCliente()
+            );
+            BigDecimal descuento = subtotalProducto.subtract(precioConDescuento);
+            BigDecimal precioFinal = precioConDescuento;
 
-                productosCotizados.add(productoCotizado);
-                subtotal = subtotal.add(subtotalProducto);
-            }
+            // Construcción del producto cotizado
+            ProductoCotizado productoCotizado = new ProductoCotizado(
+                    productSolicitud.getProductoId(),
+                    productSolicitud.getNombreProducto(),
+                    "Descripcion no disponible", // ahora sí lo recibes del request
+                    productSolicitud.getCantidad(),
+                    productSolicitud.getPrecioBase(),
+                    descuento,
+                    precioFinal,
+                    subtotalProducto,
+                    productSolicitud.getCantidad() >= 1 ? "DISPONIBLE" : "NO DISPONIBLE",
+                    productSolicitud.getCantidad() >= 1,
+                    productSolicitud.getCantidad() >= 1 ? 5 : 15
+            );
+
+            productosCotizados.add(productoCotizado);
+            subtotal = subtotal.add(subtotalProducto);
         }
-        
+
         // Calcular totales
         BigDecimal descuentos = calculadoraPrecios.calcularDescuentoTotal(subtotal, request.getTipoCliente());
         BigDecimal impuestos = calculadoraPrecios.calcularImpuestos(subtotal.subtract(descuentos));
         BigDecimal total = subtotal.subtract(descuentos).add(impuestos);
-        
+
         // Crear respuesta de cotización
         CotizacionResponse cotizacion = new CotizacionResponse(
                 cotizacionId,
@@ -114,10 +95,11 @@ public class CotizadorApplicationService implements CotizadorUseCase {
                 determinarCondicionesPago(request.getTipoCliente()),
                 calcularTiempoEntregaTotal(productosCotizados)
         );
-        
+
         // Guardar cotización
         return cotizacionRepository.guardarCotizacion(cotizacion);
     }
+
 
     @Override
     public CotizacionResponse consultarCotizacion(String cotizacionId) {

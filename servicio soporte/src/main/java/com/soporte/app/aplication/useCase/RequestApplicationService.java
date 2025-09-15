@@ -2,7 +2,6 @@ package com.soporte.app.aplication.useCase;
 
 
 import com.soporte.app.domain.port.out.RequestManagerServicePort;
-import com.soporte.app.infrastructure.adapter.in.web.dto.request.RequestSupportProduct;
 import com.soporte.app.infrastructure.adapter.in.web.dto.response.ResponseSupportProduct;
 import com.soporte.app.infrastructure.adapter.out.microservice.dto.SolicitudRequestDto;
 import com.soporte.app.infrastructure.adapter.out.microservice.dto.SolicitudResponseDto;
@@ -29,7 +28,7 @@ public class RequestApplicationService {
     /**
      * Crea una solicitud de productos
      */
-    public CompletableFuture<SolicitudResponseDto> crearSolicitudProductos(Long customerId, List<RequestSupportProduct> productos,
+    public CompletableFuture<SolicitudResponseDto> crearSolicitudProductos(Long customerId, List<ResponseSupportProduct> productos,
                                                                            String tipoSolicitud, String prioridad, String observaciones) {
         try {
             logger.info("Creando solicitud para cliente: {} con {} productos", customerId, productos.size());

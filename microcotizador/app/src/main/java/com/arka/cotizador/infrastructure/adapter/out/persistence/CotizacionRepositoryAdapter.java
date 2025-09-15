@@ -21,7 +21,11 @@ public class CotizacionRepositoryAdapter implements CotizacionRepositoryPort {
 
     @Override
     public CotizacionResponse buscarPorId(String cotizacionId) {
-        return cotizaciones.get(cotizacionId);
+         if (cotizaciones.containsKey(cotizacionId)) {
+             return cotizaciones.get(cotizacionId);
+         } else {
+             throw new RuntimeException("No se encontró la cotización con ID: " + cotizacionId);
+         }
     }
 
     @Override

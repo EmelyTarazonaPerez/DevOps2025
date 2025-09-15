@@ -3,6 +3,7 @@ package com.soporte.app.infrastructure.adapter.out.repository.service;
 
 
 import com.soporte.app.domain.model.Client;
+import com.soporte.app.domain.port.out.ClientRepositoryPort;
 import com.soporte.app.infrastructure.adapter.out.repository.IRepositoryClient;
 import com.soporte.app.infrastructure.adapter.out.repository.entity.ClientEntity;
 import com.soporte.app.infrastructure.adapter.out.repository.mapping.MapperClientEntity;

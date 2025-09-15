@@ -14,11 +14,11 @@ import java.util.stream.Collectors;
 public class ProductoServiceAdapter implements ProductoServicePort {
 
     private final RestTemplate restTemplate;
-    @Value("${microservices.cotizador.url}")
     private final String arkaBaseUrl;
 
 
-    public ProductoServiceAdapter(RestTemplate restTemplate, String arkaBaseUrl) {
+    public ProductoServiceAdapter(RestTemplate restTemplate,
+                                  @Value("${microservices.arka.url}") String arkaBaseUrl) {
         this.restTemplate = restTemplate;
         this.arkaBaseUrl = arkaBaseUrl;
     }
@@ -27,14 +27,14 @@ public class ProductoServiceAdapter implements ProductoServicePort {
     public List<Product> obtenerProductosPorIds(List<Long> productoIds) {
         return productoIds.stream()
                 .map(id -> Optional.ofNullable(
-                        restTemplate.getForObject(arkaBaseUrl + "/products/{id}", Product.class, id)))
+                        restTemplate.getForObject(arkaBaseUrl + "/api/support/products/{id}", Product.class, id)))
                 .flatMap(Optional::stream) // solo pasa los que no son null
                 .collect(Collectors.toList());
 
     }
 
     @Override
-    public boolean verificarDisponibilidad(Integer productoId, Integer cantidad) {
+    public boolean verificarDisponibilidad(Long productoId, Integer cantidad) {
         Product product = restTemplate.getForObject(arkaBaseUrl + "/products/{id}", Product.class, productoId);
         return product != null && product.getStock() != null && product.getStock() >= cantidad;    }
 

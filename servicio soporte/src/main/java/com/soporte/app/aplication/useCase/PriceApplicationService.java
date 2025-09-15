@@ -58,7 +58,7 @@ public class PriceApplicationService {
     /**
      * Obtiene cotizaciones de un cliente
      */
-    public CompletableFuture<List<CotizacionResponseDto>> obtenerCotizacionesCliente(Long customerId) {
+    public CompletableFuture<List<CotizacionResponseDto>> obtenerCotizacionesCliente(String customerId) {
         logger.info("Obteniendo cotizaciones para cliente: {}", customerId);
         return priceServicePort.obtenerCotizacionesPorCliente(customerId);
     }

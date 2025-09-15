@@ -3,7 +3,7 @@ package com.arka.cotizador.domain.model;
 import java.math.BigDecimal;
 
 public class ProductoCotizado {
-    private Integer productoId;
+    private Long productoId;
     private String nombre;
     private String descripcion;
     private Integer cantidad;
@@ -17,7 +17,7 @@ public class ProductoCotizado {
 
     public ProductoCotizado() {}
 
-    public ProductoCotizado(Integer productoId, String nombre, String descripcion, Integer cantidad,
+    public ProductoCotizado(Long productoId, String nombre, String descripcion, Integer cantidad,
                            BigDecimal precioUnitario, BigDecimal descuento, BigDecimal precioFinal,
                            BigDecimal subtotal, String observaciones, Boolean disponible, Integer tiempoEntrega) {
         this.productoId = productoId;
@@ -34,11 +34,11 @@ public class ProductoCotizado {
     }
 
     // Getters y Setters
-    public Integer getProductoId() {
+    public Long getProductoId() {
         return productoId;
     }
 
-    public void setProductoId(Integer productoId) {
+    public void setProductoId(Long productoId) {
         this.productoId = productoId;
     }
 

@@ -9,7 +9,7 @@ import java.util.List;
 public interface SupportProductPort {
     List<SupportProduct> findAllProduct();
     SupportProduct findProductById(Long id);
-    SupportProduct updateProduct(SupportProduct product, Integer id);
+    SupportProduct updateProduct(SupportProduct product, Long id);
     SupportProduct saveProduct(SupportProduct product);
     String deleteProduct(Integer id);
     List<SupportProduct> findProductByName(String identificationNumber);

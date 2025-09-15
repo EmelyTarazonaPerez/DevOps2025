@@ -15,6 +15,7 @@ public class CotizacionRequestDto {
     @Data
     public static class ProductoSolicitadoDto {
         private Long productoId;
+        private String nombreProducto;
         private Integer cantidad;
         private BigDecimal precioBase;
         private String observaciones;

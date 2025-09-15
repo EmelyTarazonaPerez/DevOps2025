@@ -1,7 +1,10 @@
 package com.arka.cotizador.config;
 
+import com.arka.cotizador.domain.service.CalculadoraPrecios;
+import com.arka.cotizador.domain.service.impl.PriceCalculatorImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.config.CorsRegistry;
 import org.springframework.web.reactive.config.EnableWebFlux;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
@@ -25,5 +28,15 @@ public class WebFluxConfig implements WebFluxConfigurer {
         return WebClient.builder()
                 .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(1024 * 1024))
                 .build();
+    }
+
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+
+    @Bean
+    CalculadoraPrecios calculadoraPrecios(  ) {
+        return new PriceCalculatorImpl();
     }
 }

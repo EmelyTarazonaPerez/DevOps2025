@@ -36,7 +36,7 @@ public class RequestManagerServiceAdapter implements RequestManagerServicePort {
     public CompletableFuture<SolicitudResponseDto> crearSolicitud(SolicitudRequestDto request) {
         return CompletableFuture.supplyAsync(() -> {
             try {
-                logger.info("Creando solicitud para cliente: {}", request.getCustomerId());
+                logger.info("Creando solicitud para cliente: {}", request.getProveedorId());
                 
                 String url = gestorSolicitudesBaseUrl + "/api/solicitudes";
                 HttpEntity<SolicitudRequestDto> entity = new HttpEntity<>(request);

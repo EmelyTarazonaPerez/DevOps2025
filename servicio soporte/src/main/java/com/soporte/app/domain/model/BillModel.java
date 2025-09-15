@@ -1,5 +1,6 @@
 package com.soporte.app.domain.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class BillModel {
@@ -7,10 +8,10 @@ public class BillModel {
     private Integer idClient;
     private String state;
     private Integer idCard;
-    private Float subtotal;
-    private Float iva;
+    private BigDecimal subtotal;
+    private BigDecimal iva;
     private LocalDateTime date;
-    private Float total;
+    private BigDecimal total;
     public BillModel() {
     }
 
@@ -46,27 +47,27 @@ public class BillModel {
         this.idCard = idCard;
     }
 
-    public Float getSubtotal() {
+    public BigDecimal getSubtotal() {
         return subtotal;
     }
 
-    public void setSubtotal(Float subtotal) {
+    public void setSubtotal(BigDecimal subtotal) {
         this.subtotal = subtotal;
     }
 
-    public Float getIva() {
+    public BigDecimal getIva() {
         return iva;
     }
 
-    public void setIva(Float iva) {
+    public void setIva(BigDecimal iva) {
         this.iva = iva;
     }
 
-    public void setTotal(float total) {
+    public void setTotal(BigDecimal total) {
         this.total = total;
     }
 
-    public float getTotal() {
+    public BigDecimal getTotal() {
         return total;
     }
 

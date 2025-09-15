@@ -30,7 +30,7 @@ public class RequestManagerController {
     
     @PostMapping("/cliente/{customerId}/cotizacion")
     public CompletableFuture<ResponseEntity<SolicitudResponseDto>> crearSolicitudCotizacion(
-            @PathVariable Long customerId,
+            @PathVariable("customerId")  Long customerId,
             @RequestBody SolicitudRequest request) {
         
         logger.info("Creando solicitud de cotización para cliente {} con productos: {}", customerId, request.getProductIds());
@@ -55,7 +55,7 @@ public class RequestManagerController {
     
     @PostMapping("/cliente/{customerId}/informacion")
     public CompletableFuture<ResponseEntity<SolicitudResponseDto>> crearSolicitudInformacion(
-            @PathVariable Long customerId,
+            @PathVariable("customerId")  Long customerId,
             @RequestBody SolicitudRequest request) {
         
         logger.info("Creando solicitud de información para cliente {} con productos: {}", customerId, request.getProductIds());
@@ -80,7 +80,7 @@ public class RequestManagerController {
     
     @PostMapping("/cliente/{customerId}/urgente")
     public CompletableFuture<ResponseEntity<SolicitudResponseDto>> crearSolicitudUrgente(
-            @PathVariable Long customerId,
+            @PathVariable("customerId")  Long customerId,
             @RequestBody SolicitudRequest request) {
         
         logger.info("Creando solicitud urgente para cliente {} con productos: {}", customerId, request.getProductIds());
@@ -105,7 +105,7 @@ public class RequestManagerController {
     
     @GetMapping("/cliente/{customerId}")
     public CompletableFuture<ResponseEntity<List<SolicitudResponseDto>>> obtenerSolicitudesCliente(
-            @PathVariable Long customerId) {
+            @PathVariable("customerId")  Long customerId) {
         
         logger.info("Obteniendo solicitudes para cliente: {}", customerId);
         
@@ -119,7 +119,7 @@ public class RequestManagerController {
     
     @GetMapping("/{solicitudId}")
     public CompletableFuture<ResponseEntity<SolicitudResponseDto>> obtenerSolicitud(
-            @PathVariable String solicitudId) {
+            @PathVariable("solicitudId")  String solicitudId) {
         
         logger.info("Obteniendo solicitud: {}", solicitudId);
         
@@ -133,7 +133,7 @@ public class RequestManagerController {
     
     @GetMapping("/estado/{estado}")
     public CompletableFuture<ResponseEntity<List<SolicitudResponseDto>>> obtenerSolicitudesPorEstado(
-            @PathVariable String estado) {
+            @PathVariable("estado") String estado) {
         
         logger.info("Obteniendo solicitudes por estado: {}", estado);
         
@@ -147,7 +147,7 @@ public class RequestManagerController {
     
     @PatchMapping("/{solicitudId}/estado")
     public CompletableFuture<ResponseEntity<SolicitudResponseDto>> actualizarEstadoSolicitud(
-            @PathVariable String solicitudId,
+            @PathVariable("solicitudId") String solicitudId,
             @RequestBody String nuevoEstado) {
         
         logger.info("Actualizando estado de solicitud {} a: {}", solicitudId, nuevoEstado);

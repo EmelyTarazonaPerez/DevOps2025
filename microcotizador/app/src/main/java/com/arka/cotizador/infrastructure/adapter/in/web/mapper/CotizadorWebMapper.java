@@ -57,6 +57,7 @@ public class CotizadorWebMapper {
     private ProductoSolicitado toProductoSolicitadoDomain(CotizacionRequestDto.ProductoSolicitadoDto dto) {
         return new ProductoSolicitado(
                 dto.getProductoId(),
+                dto.getNombreProducto(),
                 dto.getCantidad(),
                 dto.getPrecioBase(),
                 dto.getObservaciones()

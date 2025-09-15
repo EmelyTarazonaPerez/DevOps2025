@@ -1,8 +1,8 @@
-package com.arka.cotizador.domain.port.out;
+package com.arka.cotizador.domain.service;
 
 import java.math.BigDecimal;
 
-public interface CalculadoraPreciosPort {
+public interface CalculadoraPrecios {
     
     /**
      * Calcula el precio con descuentos aplicados según el tipo de cliente

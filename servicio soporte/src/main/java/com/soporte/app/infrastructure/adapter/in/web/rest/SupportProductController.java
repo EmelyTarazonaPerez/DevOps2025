@@ -52,7 +52,7 @@ public class SupportProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseSupportProduct> updateProduct(@PathVariable Integer id, @RequestBody RequestSupportProduct movie) {
+    public ResponseEntity<ResponseSupportProduct> updateProduct(@PathVariable Long id, @RequestBody RequestSupportProduct movie) {
         try {
             if (id == null || movie == null) {
                 return ResponseEntity.badRequest().build();

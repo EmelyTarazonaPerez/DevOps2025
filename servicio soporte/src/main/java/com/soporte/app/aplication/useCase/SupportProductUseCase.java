@@ -53,7 +53,7 @@ public class SupportProductUseCase {
         return serviceSupportProduct.getResponseSupportProduct(result);
     }
 
-    public ResponseSupportProduct updateProduct(Integer id, SupportProduct supportProduct) {
+    public ResponseSupportProduct updateProduct(Long id, SupportProduct supportProduct) {
         SupportProduct productUpdate = productRepositoryPort.updateProduct(supportProduct, id);
         if (productUpdate == null) {
             throw new RuntimeException("Client not found with id: " + id);

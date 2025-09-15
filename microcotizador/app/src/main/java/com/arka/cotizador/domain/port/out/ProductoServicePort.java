@@ -21,5 +21,5 @@ public interface ProductoServicePort {
      * @param cantidad Cantidad requerida
      * @return true si hay stock suficiente
      */
-    boolean verificarDisponibilidad(Integer productoId, Integer cantidad);
+    boolean verificarDisponibilidad(Long productoId, Integer cantidad);
 }

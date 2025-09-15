@@ -22,10 +22,11 @@ public class AdapterSupport implements SupportProductPort {
         return mapperProductEntity.entityListToModelList(productEntity);
     }
 
+
     @Override
-    public SupportProduct findProductById(Integer id) {
+    public SupportProduct findProductById(Long id) {
       try {
-          ProductEntity productEntity = repositoryClient.findById(id)
+          ProductEntity productEntity = repositoryClient.findById(Math.toIntExact(id))
                     .orElseThrow(() -> new RuntimeException("Client not found with id: " + id));
             return mapperProductEntity.entityToModel(productEntity);
         } catch (RuntimeException e) {
@@ -34,7 +35,7 @@ public class AdapterSupport implements SupportProductPort {
     }
 
     @Override
-    public SupportProduct updateProduct(SupportProduct product, Integer id) {
+    public SupportProduct updateProduct(SupportProduct product, Long id) {
         if(product == null || id == null) {
             throw new IllegalArgumentException("Product and ID must not be null");
         }

@@ -6,7 +6,7 @@ import java.util.List;
 
 @Data
 public class SolicitudRequestDto {
-    private Long proveedorId;
+    private String proveedorId;
     private String tipoSolicitud;
     private String prioridad;
     private List<ProductoSolicitudDto> productos;
@@ -15,7 +15,7 @@ public class SolicitudRequestDto {
     public SolicitudRequestDto() {
     }
 
-    public SolicitudRequestDto(Long customerId, String tipoSolicitud, String prioridad,
+    public SolicitudRequestDto(String customerId, String tipoSolicitud, String prioridad,
                                List<ProductoSolicitudDto> productos, String observaciones) {
         this.proveedorId = customerId;
         this.tipoSolicitud = tipoSolicitud;

@@ -13,6 +13,7 @@ public class ResponseSupportProduct {
     private Long id;
     private String name;
     private String code;
+    private String description;
     private Integer quantity;
     private BigDecimal unitPrice;
     private String supplierId;

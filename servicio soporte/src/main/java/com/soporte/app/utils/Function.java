@@ -15,6 +15,7 @@ public class Function {
                 request.getId(),
                 request.getName(),
                 request.getCode(),
+                request.getDescription(),
                 request.getQuantity(),
                 request.getUnitPrice(),
                 request.getSupplierId(),

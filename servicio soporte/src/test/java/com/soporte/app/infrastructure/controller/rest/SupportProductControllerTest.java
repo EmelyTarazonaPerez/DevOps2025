@@ -31,10 +31,10 @@ public class SupportProductControllerTest {
                 new ResponseSupportProduct(),
                 new ResponseSupportProduct()
         );
-        Mockito.when(serviceSupportProduct.getAllProducts()).thenReturn(mockProducts);
+        Mockito.when(serviceSupportProduct.getAllProducts(0, 20, "DESC")).thenReturn(mockProducts);
 
         // Act
-        ResponseEntity<List<ResponseSupportProduct>> response = supportProductController.getAll();
+        ResponseEntity<List<ResponseSupportProduct>> response = supportProductController.getAll(0, 10, "DESC");
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());

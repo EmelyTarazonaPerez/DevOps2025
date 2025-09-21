@@ -30,7 +30,7 @@ public class RequestManagerController {
     
     @PostMapping("/cliente/{customerId}/cotizacion")
     public CompletableFuture<ResponseEntity<SolicitudResponseDto>> crearSolicitudCotizacion(
-            @PathVariable("customerId")  Long customerId,
+            @PathVariable("customerId")  String customerId,
             @RequestBody SolicitudRequest request) {
         
         logger.info("Creando solicitud de cotización para cliente {} con productos: {}", customerId, request.getProductIds());
@@ -55,7 +55,7 @@ public class RequestManagerController {
     
     @PostMapping("/cliente/{customerId}/informacion")
     public CompletableFuture<ResponseEntity<SolicitudResponseDto>> crearSolicitudInformacion(
-            @PathVariable("customerId")  Long customerId,
+            @PathVariable("customerId")  String customerId,
             @RequestBody SolicitudRequest request) {
         
         logger.info("Creando solicitud de información para cliente {} con productos: {}", customerId, request.getProductIds());
@@ -80,7 +80,7 @@ public class RequestManagerController {
     
     @PostMapping("/cliente/{customerId}/urgente")
     public CompletableFuture<ResponseEntity<SolicitudResponseDto>> crearSolicitudUrgente(
-            @PathVariable("customerId")  Long customerId,
+            @PathVariable("customerId")  String customerId,
             @RequestBody SolicitudRequest request) {
         
         logger.info("Creando solicitud urgente para cliente {} con productos: {}", customerId, request.getProductIds());
@@ -101,20 +101,6 @@ public class RequestManagerController {
             logger.error("Error al procesar solicitud urgente: {}", ex.getMessage());
             return CompletableFuture.completedFuture(ResponseEntity.badRequest().build());
         }
-    }
-    
-    @GetMapping("/cliente/{customerId}")
-    public CompletableFuture<ResponseEntity<List<SolicitudResponseDto>>> obtenerSolicitudesCliente(
-            @PathVariable("customerId")  Long customerId) {
-        
-        logger.info("Obteniendo solicitudes para cliente: {}", customerId);
-        
-        return solicitudService.obtenerSolicitudesCliente(customerId)
-            .thenApply(ResponseEntity::ok)
-            .exceptionally(throwable -> {
-                logger.error("Error al obtener solicitudes del cliente {}: {}", customerId, throwable.getMessage());
-                return ResponseEntity.internalServerError().build();
-            });
     }
     
     @GetMapping("/{solicitudId}")

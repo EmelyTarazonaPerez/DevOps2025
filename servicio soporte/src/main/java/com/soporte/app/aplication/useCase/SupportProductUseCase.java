@@ -17,8 +17,8 @@ public class SupportProductUseCase {
     private final SupportProductPort productRepositoryPort;
     private final Function serviceSupportProduct;
 
-    public List<ResponseSupportProduct> getAllProducts() {
-        List<SupportProduct>  products = productRepositoryPort.findAllProduct();
+    public List<ResponseSupportProduct> getAllProducts(int page, int size, String sort) {
+        List<SupportProduct>  products = productRepositoryPort.findAllProduct(page, size, sort);
         if (products == null || products.isEmpty()) {
             throw new RuntimeException("No products found");
         }
@@ -28,6 +28,7 @@ public class SupportProductUseCase {
                             product.getId(),
                             product.getName(),
                             product.getCode(),
+                            product.getDescription(),
                             product.getQuantity(),
                             product.getUnitPrice(),
                             product.getSupplierId(),
@@ -78,6 +79,7 @@ public class SupportProductUseCase {
                         product.getId(),
                         product.getName(),
                         product.getCode(),
+                        product.getDescription(),
                         product.getQuantity(),
                         product.getUnitPrice(),
                         product.getSupplierId(),
@@ -87,7 +89,7 @@ public class SupportProductUseCase {
     }
 
     public List<ResponseSupportProduct> getProductByOrderAsc(boolean orderAsc) {
-    List<SupportProduct> product = productRepositoryPort.findAllProduct();
+    List<SupportProduct> product = productRepositoryPort.findAllProduct( 0, Integer.MAX_VALUE, "DESC");
         if (product == null || product.isEmpty()) {
             throw new RuntimeException("No products found");
         }
@@ -97,15 +99,16 @@ public class SupportProductUseCase {
             product.sort((c1, c2) -> c2.getName().compareTo(c1.getName()));
         }
         return product.stream()
-                .map(client -> {
+                .map(x -> {
                     return new ResponseSupportProduct(
-                            client.getId(),
-                            client.getName(),
-                            client.getCode(),
-                            client.getQuantity(),
-                            client.getUnitPrice(),
-                            client.getSupplierId(),
-                            client.getCategory()
+                            x.getId(),
+                            x.getName(),
+                            x.getCode(),
+                            x.getDescription(),
+                            x.getQuantity(),
+                            x.getUnitPrice(),
+                            x.getSupplierId(),
+                            x.getCategory()
                     );
                 })
                 .collect(Collectors.toList());
@@ -121,6 +124,7 @@ public class SupportProductUseCase {
                         product.getId(),
                         product.getName(),
                         product.getCode(),
+                        product.getDescription(),
                         product.getQuantity(),
                         product.getUnitPrice(),
                         product.getSupplierId(),

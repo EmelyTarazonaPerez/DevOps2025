@@ -7,7 +7,7 @@ import java.util.List;
 
 
 public interface SupportProductPort {
-    List<SupportProduct> findAllProduct();
+    List<SupportProduct> findAllProduct(int page, int size, String sort);
     SupportProduct findProductById(Long id);
     SupportProduct updateProduct(SupportProduct product, Long id);
     SupportProduct saveProduct(SupportProduct product);

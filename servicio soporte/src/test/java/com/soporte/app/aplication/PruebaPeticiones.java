@@ -38,10 +38,10 @@ public class PruebaPeticiones {
         List<SupportProduct> productList = List.of(product);
         ResponseSupportProduct response = new ResponseSupportProduct(1L, "Producto", "001", 10, BigDecimal.valueOf(100.0f), "1", "Electrónica");
 
-        Mockito.when(productRepositoryPort.findAllProduct()).thenReturn(productList);
+        Mockito.when(productRepositoryPort.findAllProduct(0, 25, "DESC")).thenReturn(productList);
 
         // Act
-        List<ResponseSupportProduct> result = productUseCase.getAllProducts();
+        List<ResponseSupportProduct> result = productUseCase.getAllProducts(0, 25, "DESC");
 
         // Assert
         assertEquals(1, result.size());
@@ -50,9 +50,9 @@ public class PruebaPeticiones {
 
     @Test
     void getAllProducts_ShouldThrowException_WhenListIsEmpty() {
-        Mockito.when(productRepositoryPort.findAllProduct()).thenReturn(List.of());
+        Mockito.when(productRepositoryPort.findAllProduct(0, 10,  "DESC")).thenReturn(List.of());
 
-        assertThrows(RuntimeException.class, () -> productUseCase.getAllProducts());
+        assertThrows(RuntimeException.class, () -> productUseCase.getAllProducts(0, 10, "DESC"));
     }
 
     // getProductById()

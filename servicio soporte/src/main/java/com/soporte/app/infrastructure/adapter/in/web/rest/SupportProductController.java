@@ -22,8 +22,12 @@ public class SupportProductController {
     private final IMapperProduct mapperSupportProduct;
 
     @GetMapping
-    public ResponseEntity<List<ResponseSupportProduct>> getAll() {
-        List<ResponseSupportProduct> result = serviceSupportProduct.getAllProducts();
+    public ResponseEntity<List<ResponseSupportProduct>> getAll(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "query", defaultValue = "DESC") String query
+    ) {
+        List<ResponseSupportProduct> result = serviceSupportProduct.getAllProducts(page, size, query);
         if (result.isEmpty()) {
             return ResponseEntity.noContent().build();
         }

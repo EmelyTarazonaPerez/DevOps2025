@@ -6,6 +6,10 @@ import com.soporte.app.infrastructure.adapter.out.repository.IRepositorySupportP
 import com.soporte.app.infrastructure.adapter.out.repository.entity.ProductEntity;
 import com.soporte.app.infrastructure.adapter.out.repository.mapping.IMapperEntity;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,9 +21,15 @@ public class AdapterSupport implements SupportProductPort {
     private final IMapperEntity mapperProductEntity;
 
     @Override
-    public List<SupportProduct> findAllProduct() {
-        List<ProductEntity> productEntity = repositoryClient.findAll();
-        return mapperProductEntity.entityListToModelList(productEntity);
+    public List<SupportProduct> findAllProduct(int page, int size, String sort) {
+        Sort.Direction direction = Sort.Direction.ASC;
+        String defaultSort = "name";
+        if (sort.equals("DESC")){
+            direction = Sort.Direction.DESC;
+        }
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, defaultSort));
+        Page<ProductEntity> productEntityPage = repositoryClient.findAll(pageable);
+        return mapperProductEntity.entityListToModelList(productEntityPage.getContent());
     }
 
 

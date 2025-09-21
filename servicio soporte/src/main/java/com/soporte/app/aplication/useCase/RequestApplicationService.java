@@ -28,7 +28,7 @@ public class RequestApplicationService {
     /**
      * Crea una solicitud de productos
      */
-    public CompletableFuture<SolicitudResponseDto> crearSolicitudProductos(Long customerId, List<ResponseSupportProduct> productos,
+    public CompletableFuture<SolicitudResponseDto> crearSolicitudProductos(String customerId, List<ResponseSupportProduct> productos,
                                                                            String tipoSolicitud, String prioridad, String observaciones) {
         try {
             logger.info("Creando solicitud para cliente: {} con {} productos", customerId, productos.size());
@@ -65,21 +65,21 @@ public class RequestApplicationService {
     /**
      * Crea una solicitud de cotización
      */
-    public CompletableFuture<SolicitudResponseDto> crearSolicitudCotizacion(Long customerId, List<ResponseSupportProduct> productos, String observaciones) {
+    public CompletableFuture<SolicitudResponseDto> crearSolicitudCotizacion(String customerId, List<ResponseSupportProduct> productos, String observaciones) {
         return crearSolicitudProductos(customerId, productos, "COTIZACION", "MEDIA", observaciones);
     }
     
     /**
      * Crea una solicitud de información
      */
-    public CompletableFuture<SolicitudResponseDto> crearSolicitudInformacion(Long customerId, List<ResponseSupportProduct> productos, String observaciones) {
+    public CompletableFuture<SolicitudResponseDto> crearSolicitudInformacion(String customerId, List<ResponseSupportProduct> productos, String observaciones) {
         return crearSolicitudProductos(customerId, productos, "INFORMACION", "BAJA", observaciones);
     }
     
     /**
      * Crea una solicitud urgente
      */
-    public CompletableFuture<SolicitudResponseDto> crearSolicitudUrgente(Long customerId, List<ResponseSupportProduct> productos, String observaciones) {
+    public CompletableFuture<SolicitudResponseDto> crearSolicitudUrgente(String customerId, List<ResponseSupportProduct> productos, String observaciones) {
         return crearSolicitudProductos(customerId, productos, "URGENTE", "ALTA", observaciones);
     }
     

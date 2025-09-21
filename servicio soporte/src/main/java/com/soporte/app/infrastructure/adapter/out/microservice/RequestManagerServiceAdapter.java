@@ -38,7 +38,7 @@ public class RequestManagerServiceAdapter implements RequestManagerServicePort {
             try {
                 logger.info("Creando solicitud para cliente: {}", request.getProveedorId());
                 
-                String url = gestorSolicitudesBaseUrl + "/api/solicitudes";
+                String url = gestorSolicitudesBaseUrl + "/solicitudes";
                 HttpEntity<SolicitudRequestDto> entity = new HttpEntity<>(request);
                 
                 ResponseEntity<SolicitudResponseDto> response = restTemplate.exchange(
@@ -63,7 +63,7 @@ public class RequestManagerServiceAdapter implements RequestManagerServicePort {
             try {
                 logger.info("Obteniendo solicitud: {}", solicitudId);
                 
-                String url = gestorSolicitudesBaseUrl + "/api/solicitudes/{id}";
+                String url = gestorSolicitudesBaseUrl + "/solicitudes/{id}";
                 ResponseEntity<SolicitudResponseDto> response = restTemplate.getForEntity(url, SolicitudResponseDto.class, solicitudId);
                 
                 logger.info("Solicitud obtenida exitosamente: {}", solicitudId);
@@ -82,7 +82,7 @@ public class RequestManagerServiceAdapter implements RequestManagerServicePort {
             try {
                 logger.info("Obteniendo solicitudes para cliente: {}", customerId);
                 
-                String url = gestorSolicitudesBaseUrl + "/api/solicitudes/cliente/{customerId}";
+                String url = gestorSolicitudesBaseUrl + "/solicitudes/cliente/{customerId}";
                 ResponseEntity<List<SolicitudResponseDto>> response = restTemplate.exchange(
                     url, HttpMethod.GET, null, new ParameterizedTypeReference<List<SolicitudResponseDto>>(){}, customerId);
                 
@@ -105,11 +105,11 @@ public class RequestManagerServiceAdapter implements RequestManagerServicePort {
             try {
                 logger.info("Actualizando estado de solicitud {} a: {}", solicitudId, nuevoEstado);
                 
-                String url = gestorSolicitudesBaseUrl + "/api/solicitudes/{id}/estado";
+                String url = gestorSolicitudesBaseUrl + "/solicitudes/{solicitudId}/estado";
                 HttpEntity<String> entity = new HttpEntity<>(nuevoEstado);
                 
                 ResponseEntity<SolicitudResponseDto> response = restTemplate.exchange(
-                    url, HttpMethod.PATCH, entity, SolicitudResponseDto.class, solicitudId);
+                    url, HttpMethod.PUT, entity, SolicitudResponseDto.class, solicitudId);
                 
                 logger.info("Estado de solicitud actualizado exitosamente: {}", solicitudId);
                 return response.getBody();
@@ -127,7 +127,7 @@ public class RequestManagerServiceAdapter implements RequestManagerServicePort {
             try {
                 logger.info("Obteniendo solicitudes por estado: {}", estado);
                 
-                String url = gestorSolicitudesBaseUrl + "/api/solicitudes/estado/{estado}";
+                String url = gestorSolicitudesBaseUrl + "/solicitudes/{solicitudId}/{estado}";
                 ResponseEntity<List<SolicitudResponseDto>> response = restTemplate.exchange(
                     url, HttpMethod.GET, null, new ParameterizedTypeReference<List<SolicitudResponseDto>>(){}, estado);
                 

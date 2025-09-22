@@ -1,0 +1,69 @@
+version: "3.9"
+
+services:
+  api-servicio-arca:
+    image: emelydayanna266/api-proyecto-arca:v1
+    container_name: proyecto-arca
+    ports:
+      - 8083:8083
+    environment:
+      - SPRING_PROFILES_ACTIVE=development
+      - JAVA_OPTS=-Xms512m -Xmx1024m
+    depends_on:
+      - otro-servicio
+
+  api-servicio-gestor-solicitudes:
+    image: emelydayanna266/api-digital-gestor-solicitudes:v1
+    container_name: proyecto-gestor-solicitudes
+    ports:
+      - 8081:8081
+    environment:
+      - SPRING_PROFILES_ACTIVE=development
+      - JAVA_OPTS=-Xms512m -Xmx1024m
+    depends_on:
+      - otro-servicio
+
+  api-servicio-cotizador:
+    image: emelydayanna266/api-digital-arca-cotizador:v1
+    container_name: proyecto-cotizador
+    ports:
+      - 8080:8080
+    environment:
+      - SPRING_PROFILES_ACTIVE=development
+      - JAVA_OPTS=-Xms512m -Xmx1024m
+    depends_on:
+      - otro-servicio
+
+  api-servicio-comentarios:
+    image: emelydayanna266/api-digital-comentarios:v1
+    container_name: proyecto-comentarios
+    ports:
+      - 8083:8083
+    environment:
+      - SPRING_PROFILES_ACTIVE=development
+      - JAVA_OPTS=-Xms512m -Xmx1024m
+    depends_on:
+      - otro-servicio
+
+  api-servicio-bff:
+    image: emelydayanna266/api-digital-bff:v1
+    container_name: proyecto-comentarios
+    ports:
+      - 8088:8088
+    environment:
+      - SPRING_PROFILES_ACTIVE=development
+      - JAVA_OPTS=-Xms512m -Xmx1024m
+    depends_on:
+      - otro-servicio
+
+  mysql:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=demo
+      - POSTGRES_PASSWORD=demo
+      - POSTGRES_DB=demo
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data

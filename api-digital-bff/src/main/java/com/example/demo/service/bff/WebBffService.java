@@ -17,8 +17,7 @@ public class WebBffService {
     private final ProductService productService;
     private final CommentService commentService;
 
-    public WebBffService(UserService userService, 
-                        OrderService orderService,
+    public WebBffService(
                         ProductService productService,
                         CommentService commentService) {
 

@@ -82,7 +82,7 @@ public class GestorSolicitudesController {
                     .map(mapper::toResponseDto)
                     .collect(Collectors.toList());
             return ResponseEntity.ok(responseDtos);
-        } catch (Exception e) {dockerfile
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

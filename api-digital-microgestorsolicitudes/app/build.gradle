@@ -7,7 +7,7 @@ plugins {
 
 }
 
-group = 'com.arka.cotizador'
+group = 'com.arka.gestorsolicitudes'
 version = '1.0-SNAPSHOT'
 sourceCompatibility = '17'
 
@@ -17,6 +17,8 @@ repositories {
 }
 
 dependencies {
+
+    implementation 'org.springframework.boot:spring-boot-starter'
     // Use JUnit Jupiter for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.1'
 
@@ -51,19 +53,19 @@ dependencies {
 }
 
 application {
-    // Define the main class for the application.
-    mainClass = 'com.arka.cotizador.ArcaCotizadorApplication'
-}
-test {
-    useJUnitPlatform()
+    mainClass = 'com.arka.gestorsolicitudes.ArcaCotizadorApplication'
 }
 
 springBoot {
-    // Enable the Spring Boot plugin to create an executable JAR.
-    mainClass = 'com.arka.cotizador.ArcaCotizadorApplication'
+    mainClass = 'com.arka.gestorsolicitudes.ArcaCotizadorApplication'
 }
 
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
 }
+
+test {
+    useJUnitPlatform()
+}
+

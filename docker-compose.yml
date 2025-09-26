@@ -2,68 +2,103 @@ version: "3.9"
 
 services:
   api-servicio-arca:
+    build: ./api-servicio-arka
     image: emelydayanna266/api-proyecto-arca:v1
     container_name: proyecto-arca
     ports:
-      - 8083:8083
+      - "8083:8083"
     environment:
       - SPRING_PROFILES_ACTIVE=development
       - JAVA_OPTS=-Xms512m -Xmx1024m
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql_tienda:3306/tienda_virtual
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=1234
+      - MICROSERVICES_ARCA_COTIZADOR_URL=http://proyecto-cotizador:8080/api/v1/cotizador
+      - MICROSERVICES_GESTOR_SOLICITUDES_URL=http://proyecto-gestor-solicitudes:8081/api/v1/gestor-solicitudes
+      - MICROSERVICES_ARKA_URL=http://proyecto-arca:8083/api/v1/arka
     depends_on:
-      - otro-servicio
+      - mysql_tienda
+      - api-servicio-gestor-solicitudes
+      - api-servicio-cotizador
 
   api-servicio-gestor-solicitudes:
+    build: ./api-digital-microgestorsolicitudes
     image: emelydayanna266/api-digital-gestor-solicitudes:v1
     container_name: proyecto-gestor-solicitudes
     ports:
-      - 8081:8081
+      - "8081:8081"
     environment:
       - SPRING_PROFILES_ACTIVE=development
       - JAVA_OPTS=-Xms512m -Xmx1024m
-    depends_on:
-      - otro-servicio
+      - MICROSERVICES_ARCA_COTIZADOR_URL=http://proyecto-cotizador:8080/api/v1/cotizador
+      - MICROSERVICES_GESTOR_SOLICITUDES_URL=http://proyecto-gestor-solicitudes:8081/api/v1/gestor-solicitudes
+      - MICROSERVICES_ARKA_URL=http://proyecto-arca:8083/api/v1/arka
 
   api-servicio-cotizador:
+    build: ./api-digital-microcotizador
     image: emelydayanna266/api-digital-arca-cotizador:v1
     container_name: proyecto-cotizador
     ports:
-      - 8080:8080
+      - "8080:8080"
     environment:
       - SPRING_PROFILES_ACTIVE=development
       - JAVA_OPTS=-Xms512m -Xmx1024m
-    depends_on:
-      - otro-servicio
+      - MICROSERVICES_ARCA_COTIZADOR_URL=http://proyecto-cotizador:8080/api/v1/cotizador
+      - MICROSERVICES_GESTOR_SOLICITUDES_URL=http://proyecto-gestor-solicitudes:8081/api/v1/gestor-solicitudes
+      - MICROSERVICES_ARKA_URL=http://proyecto-arca:8083/api/v1/arka
 
   api-servicio-comentarios:
+    build: ./api-digital-comentarios
     image: emelydayanna266/api-digital-comentarios:v1
     container_name: proyecto-comentarios
     ports:
-      - 8083:8083
+      - "8084:8084"
     environment:
       - SPRING_PROFILES_ACTIVE=development
       - JAVA_OPTS=-Xms512m -Xmx1024m
-    depends_on:
-      - otro-servicio
 
   api-servicio-bff:
+    build: ./api-digital-bff
     image: emelydayanna266/api-digital-bff:v1
-    container_name: proyecto-comentarios
+    container_name: proyecto-bff
     ports:
-      - 8088:8088
+      - "8088:8088"
     environment:
       - SPRING_PROFILES_ACTIVE=development
       - JAVA_OPTS=-Xms512m -Xmx1024m
     depends_on:
-      - otro-servicio
+      - api-servicio-arca
+      - api-servicio-gestor-solicitudes
+      - api-servicio-cotizador
+      - api-servicio-comentarios
 
-  mysql:
-    image: postgres:15
-    container_name: postgres
+  # Servicio MySQL
+  mysql_tienda:
+    image: emelydayanna266/mysql-tienda:1.0
+    container_name: mysql_tienda
+    restart: always
     environment:
-      - POSTGRES_USER=demo
-      - POSTGRES_PASSWORD=demo
-      - POSTGRES_DB=demo
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: tienda_virtual
     ports:
-      - "5432:5432"
+      - "3307:3306"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - mysql_data:/var/lib/mysql
+
+  # Servicio MongoDB
+  mongodb:
+    image: mongo:6.0
+    container_name: mongo_tienda
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: comentariosdb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
+  mysql_data:

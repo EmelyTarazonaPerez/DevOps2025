@@ -40,12 +40,12 @@ arca:
 microservices:
     # ✅ MODIFICADO: URL del microservicio de cotización
     arca-cotizador:
-        url: http://localhost:8080/api/v1/cotizaciones
+        url: http://proyecto-cotizador:8080/api/v1/cotizaciones
     # ✅ MODIFICADO: URL del microservicio de gestión de solicitudes
     gestor-solicitudes:
-        url: http://localhost:8081/api/v1/solicitudes
+        url: http://proyecto-gestor-solicitudes:8081/api/v1/solicitudes
     arka:
-        url: http://localhost:8083/api/v1/arka
+        url: http://proyecto-arca:8083/api/v1/arka
 
     # ✅ AGREGADO: Configuración de reintentos
     retries:

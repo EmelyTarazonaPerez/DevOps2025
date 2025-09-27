@@ -4,6 +4,7 @@ import com.soporte.app.aplication.useCase.SupportOrderUseCase;
 import com.soporte.app.infrastructure.adapter.in.web.dto.response.BodyResponse;
 import com.soporte.app.infrastructure.adapter.in.web.dto.request.RequestOrder;
 import com.soporte.app.infrastructure.adapter.in.web.mapping.IMapperBill;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,5 +52,10 @@ public class SupportPedidoController {
         println("Updating bill with ID: " + id);
         BodyResponse response = supportOrderUseCase.updateBill(id, mapperBill.requestToModel(requestOrder));
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/ping")
+    public String ping(HttpServletRequest request) {
+        return "Respuesta desde ARKA en puerto: " + request.getServerPort();
     }
 }

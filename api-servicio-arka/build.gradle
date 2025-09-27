@@ -23,10 +23,6 @@ configurations {
 	}
 }
 
-repositories {
-	mavenCentral()
-}
-
 ext {
 	set('springAiVersion', "1.0.0-RC1")
 }
@@ -40,23 +36,25 @@ dependencies {
 	//implementation 'org.springframework.ai:spring-ai-starter-model-openai'
 	compileOnly 'org.projectlombok:lombok:1.18.30'
 	annotationProcessor 'org.projectlombok:lombok:1.18.30'
-	runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
+	//runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	// JUnit Jupiter (JUnit 5)
 	testImplementation 'org.junit.jupiter:junit-jupiter'
 	testImplementation 'org.mockito:mockito-core'
 	testImplementation 'org.mockito:mockito-junit-jupiter'
-	// Lombok
-
 	// Lombok + MapStruct integration
 	annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+	implementation 'jakarta.annotation:jakarta.annotation-api:2.1.1'
+	//config Eureka
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
 }
 
 dependencyManagement {
 	imports {
 		mavenBom "org.springframework.ai:spring-ai-bom:${springAiVersion}"
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:2023.0.3"
 	}
 }
 
@@ -66,5 +64,11 @@ tasks.named('test') {
 
 tasks.withType(JavaCompile) {
 	options.annotationProcessorGeneratedSourcesDirectory = file("$buildDir/generated/sources/annotationProcessor/java/main")
-	options.compilerArgs += ["-parameters"]
+	options.compilerArgs += [
+			"-parameters",
+			"-Amapstruct.defaultComponentModel=spring",
+			"-Amapstruct.suppressGeneratorTimestamp=true",
+			"-Amapstruct.suppressGeneratorVersionInfoComment=true",
+			"-Amapstruct.unmappedTargetPolicy=IGNORE"
+	]
 }

@@ -18,8 +18,6 @@ services:
       - MICROSERVICES_ARKA_URL=http://proyecto-arca:8083/api/v1/arka
     depends_on:
       - mysql_tienda
-      - api-servicio-gestor-solicitudes
-      - api-servicio-cotizador
 
   api-servicio-gestor-solicitudes:
     build: ./api-digital-microgestorsolicitudes

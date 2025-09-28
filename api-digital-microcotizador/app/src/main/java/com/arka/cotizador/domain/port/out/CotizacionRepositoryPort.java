@@ -1,6 +1,7 @@
 package com.arka.cotizador.domain.port.out;
 
 import com.arka.cotizador.domain.model.CotizacionResponse;
+import reactor.core.publisher.Mono;
 
 public interface CotizacionRepositoryPort {
     
@@ -16,12 +17,13 @@ public interface CotizacionRepositoryPort {
      * @param cotizacionId ID de la cotización
      * @return Cotización encontrada o null
      */
-    CotizacionResponse buscarPorId(String cotizacionId);
+    Mono<CotizacionResponse> buscarPorId(String cotizacionId);
     
     /**
      * Actualiza una cotización existente
+     *
      * @param cotizacion Cotización con datos actualizados
      * @return Cotización actualizada
      */
-    CotizacionResponse actualizarCotizacion(CotizacionResponse cotizacion);
+    Mono<CotizacionResponse>  actualizarCotizacion(CotizacionResponse cotizacion);
 }

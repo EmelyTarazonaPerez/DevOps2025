@@ -10,6 +10,7 @@ import com.arka.cotizador.infrastructure.adapter.in.web.mapper.CotizadorWebMappe
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/cotizador")
@@ -25,23 +26,19 @@ public class CotizadorController {
     }
 
     @PostMapping("/cotizaciones")
-    public ResponseEntity<CotizacionResponseDto> generarCotizacion(@RequestBody CotizacionRequestDto requestDto) {
-        try {
+    public ResponseEntity<Mono<CotizacionResponseDto>> generarCotizacion(@RequestBody CotizacionRequestDto requestDto) {
             CotizacionRequest request = mapper.toDomain(requestDto);
-            CotizacionResponse response = cotizadorUseCase.generarCotizacion(request);
-            CotizacionResponseDto responseDto = mapper.toDto(response);
+            Mono<CotizacionResponse> response = cotizadorUseCase.generarCotizacion(request);
+            Mono<CotizacionResponseDto> responseDto = mapper.toDto(response);
             return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
     }
 
     @GetMapping("/cotizaciones/{cotizacionId}")
-    public ResponseEntity<CotizacionResponseDto> consultarCotizacion(@PathVariable String cotizacionId) {
+    public ResponseEntity<Mono<CotizacionResponseDto>> consultarCotizacion(@PathVariable String cotizacionId) {
         try {
-            CotizacionResponse response = cotizadorUseCase.consultarCotizacion(cotizacionId);
+            Mono<CotizacionResponse> response = cotizadorUseCase.consultarCotizacion(cotizacionId);
             if (response != null) {
-                CotizacionResponseDto responseDto = mapper.toDto(response);
+                Mono<CotizacionResponseDto> responseDto = mapper.toDto(response);
                 return ResponseEntity.ok(responseDto);
             } else {
                 return ResponseEntity.notFound().build();
@@ -52,13 +49,13 @@ public class CotizadorController {
     }
 
     @PutMapping("/cotizaciones/{cotizacionId}/estado")
-    public ResponseEntity<CotizacionResponseDto> actualizarEstado(
+    public ResponseEntity<Mono<CotizacionResponseDto>> actualizarEstado(
             @PathVariable String cotizacionId,
             @RequestParam String nuevoEstado) {
         try {
-            CotizacionResponse response = cotizadorUseCase.actualizarEstadoCotizacion(cotizacionId, nuevoEstado);
+            Mono<CotizacionResponse> response = cotizadorUseCase.actualizarEstadoCotizacion(cotizacionId, nuevoEstado);
             if (response != null) {
-                CotizacionResponseDto responseDto = mapper.toDto(response);
+                Mono<CotizacionResponseDto> responseDto = mapper.toDto(response);
                 return ResponseEntity.ok(responseDto);
             } else {
                 return ResponseEntity.notFound().build();

@@ -3,6 +3,7 @@ package com.arka.cotizador.infrastructure.adapter.out.persistence;
 import com.arka.cotizador.domain.model.CotizacionResponse;
 import com.arka.cotizador.domain.port.out.CotizacionRepositoryPort;
 import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Mono;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,20 +21,17 @@ public class CotizacionRepositoryAdapter implements CotizacionRepositoryPort {
     }
 
     @Override
-    public CotizacionResponse buscarPorId(String cotizacionId) {
-         if (cotizaciones.containsKey(cotizacionId)) {
-             return cotizaciones.get(cotizacionId);
-         } else {
-             throw new RuntimeException("No se encontró la cotización con ID: " + cotizacionId);
-         }
+    public Mono<CotizacionResponse> buscarPorId(String cotizacionId) {
+        return Mono.justOrEmpty(cotizaciones.get(cotizacionId));
     }
 
+
     @Override
-    public CotizacionResponse actualizarCotizacion(CotizacionResponse cotizacion) {
+    public Mono<CotizacionResponse> actualizarCotizacion(CotizacionResponse cotizacion) {
         if (cotizaciones.containsKey(cotizacion.getCotizacionId())) {
             cotizaciones.put(cotizacion.getCotizacionId(), cotizacion);
-            return cotizacion;
+            return Mono.just(cotizacion); // ✔️ Devuelve un Mono
         }
-        return null;
+        return Mono.empty(); // ✔️ Mejor que null, indica "no encontrado"
     }
 }

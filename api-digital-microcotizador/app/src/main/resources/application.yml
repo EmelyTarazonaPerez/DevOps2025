@@ -1,11 +1,13 @@
 ﻿# Configuración del Microservicio Arca Cotizador
 server:
   port: 8080
-  
+
 spring:
   application:
     name: arca-cotizador
-  
+  profiles:
+    active: dev
+
   # Configuración de WebFlux
   webflux:
     base-path: /api/v1
@@ -57,3 +59,14 @@ microservices:
         connection: 5000
         read: 10000
 
+# Configuración de Resilience4j
+resilience4j:
+  circuitbreaker:
+    instances:
+      calculoCotizacion:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        waitDurationInOpenState: 10s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10

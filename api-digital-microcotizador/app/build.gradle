@@ -28,14 +28,14 @@ dependencies {
 
     //Spring Boot Actuator para monitoring y gestión
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    
+
     //Validation
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     //json processing
     implementation 'com.fasterxml.jackson.core:jackson-databind'
-    
-    // LOmbok for reducing boilerplate code
+
+    // Lombok for reducing boilerplate code
     compileOnly 'org.projectlombok:lombok:1.18.30'
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
 
@@ -45,9 +45,13 @@ dependencies {
     testImplementation 'org.testcontainers:junit-jupiter:1.17.3'
 
     //OpenFeign and LoadBalancer
-    implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.1.0'
     implementation 'org.springframework.cloud:spring-cloud-starter-loadbalancer:4.1.0'
+
+    // Resilience4j para Spring Boot 3 (todas en la misma versión)
+    implementation 'io.github.resilience4j:resilience4j-spring-boot3:2.2.0'
+    implementation 'io.github.resilience4j:resilience4j-reactor:2.2.0'
+    implementation 'io.github.resilience4j:resilience4j-circuitbreaker:2.2.0'
 }
 
 application {

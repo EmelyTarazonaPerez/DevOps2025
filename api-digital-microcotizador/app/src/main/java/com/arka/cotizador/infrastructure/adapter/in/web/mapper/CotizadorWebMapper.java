@@ -7,6 +7,7 @@ import com.arka.cotizador.domain.model.ProductoSolicitado;
 import com.arka.cotizador.infrastructure.adapter.in.web.dto.CotizacionRequestDto;
 import com.arka.cotizador.infrastructure.adapter.in.web.dto.CotizacionResponseDto;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,30 +30,33 @@ public class CotizadorWebMapper {
         );
     }
 
-    public CotizacionResponseDto toDto(CotizacionResponse domain) {
-        if (domain == null) return null;
+    public Mono<CotizacionResponseDto> toDto(Mono<CotizacionResponse> domainMono) {
+        if (domainMono == null) return Mono.empty();
 
-        CotizacionResponseDto dto = new CotizacionResponseDto();
-        dto.setCotizacionId(domain.getCotizacionId());
-        dto.setClienteId(domain.getClienteId());
-        dto.setSubtotal(domain.getSubtotal());
-        dto.setDescuentos(domain.getDescuentos());
-        dto.setImpuestos(domain.getImpuestos());
-        dto.setTotal(domain.getTotal());
-        dto.setFechaCotizacion(domain.getFechaCotizacion());
-        dto.setFechaVencimiento(domain.getFechaVencimiento());
-        dto.setEstado(domain.getEstado());
-        dto.setObservaciones(domain.getObservaciones());
-        dto.setCondicionesPago(domain.getCondicionesPago());
-        dto.setTiempoEntrega(domain.getTiempoEntrega());
+        return domainMono.map(domain -> {
+            CotizacionResponseDto dto = new CotizacionResponseDto();
+            dto.setCotizacionId(domain.getCotizacionId());
+            dto.setClienteId(domain.getClienteId());
+            dto.setSubtotal(domain.getSubtotal());
+            dto.setDescuentos(domain.getDescuentos());
+            dto.setImpuestos(domain.getImpuestos());
+            dto.setTotal(domain.getTotal());
+            dto.setFechaCotizacion(domain.getFechaCotizacion());
+            dto.setFechaVencimiento(domain.getFechaVencimiento());
+            dto.setEstado(domain.getEstado());
+            dto.setObservaciones(domain.getObservaciones());
+            dto.setCondicionesPago(domain.getCondicionesPago());
+            dto.setTiempoEntrega(domain.getTiempoEntrega());
 
-        List<CotizacionResponseDto.ProductoCotizadoDto> productosDto = domain.getProductos().stream()
-                .map(this::toProductoCotizadoDto)
-                .collect(Collectors.toList());
-        dto.setProductos(productosDto);
+            List<CotizacionResponseDto.ProductoCotizadoDto> productosDto = domain.getProductos().stream()
+                    .map(this::toProductoCotizadoDto)
+                    .collect(Collectors.toList());
+            dto.setProductos(productosDto);
 
-        return dto;
+            return dto;
+        });
     }
+
 
     private ProductoSolicitado toProductoSolicitadoDomain(CotizacionRequestDto.ProductoSolicitadoDto dto) {
         return new ProductoSolicitado(

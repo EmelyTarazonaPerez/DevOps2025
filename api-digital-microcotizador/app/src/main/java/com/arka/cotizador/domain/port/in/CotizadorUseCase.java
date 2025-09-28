@@ -2,6 +2,7 @@ package com.arka.cotizador.domain.port.in;
 
 import com.arka.cotizador.domain.model.CotizacionRequest;
 import com.arka.cotizador.domain.model.CotizacionResponse;
+import reactor.core.publisher.Mono;
 
 public interface CotizadorUseCase {
     
@@ -10,14 +11,14 @@ public interface CotizadorUseCase {
      * @param request Datos de la solicitud de cotización
      * @return Cotización generada
      */
-    CotizacionResponse generarCotizacion(CotizacionRequest request);
+    Mono<CotizacionResponse> generarCotizacion(CotizacionRequest request);
     
     /**
      * Consulta una cotización por su ID
      * @param cotizacionId ID de la cotización
      * @return Cotización encontrada
      */
-    CotizacionResponse consultarCotizacion(String cotizacionId);
+    Mono<CotizacionResponse>  consultarCotizacion(String cotizacionId);
     
     /**
      * Actualiza el estado de una cotización
@@ -25,5 +26,5 @@ public interface CotizadorUseCase {
      * @param nuevoEstado Nuevo estado
      * @return Cotización actualizada
      */
-    CotizacionResponse actualizarEstadoCotizacion(String cotizacionId, String nuevoEstado);
+    Mono<CotizacionResponse> actualizarEstadoCotizacion(String cotizacionId, String nuevoEstado);
 }

@@ -34,9 +34,9 @@ public class PruebaPeticiones {
     @Test
     void getAllProducts_ShouldReturnMappedList_WhenProductsExist() {
         // Arrange
-        SupportProduct product = new SupportProduct(1L, "Producto", "001", 10, BigDecimal.valueOf(100.0f), "1", "Electrónica");
+        SupportProduct product = new SupportProduct(1L, "Producto", "001", 10, BigDecimal.valueOf(100.0f), "1", "Electrónica", null);
         List<SupportProduct> productList = List.of(product);
-        ResponseSupportProduct response = new ResponseSupportProduct(1L, "Producto", "001", 10, BigDecimal.valueOf(100.0f), "1", "Electrónica");
+        ResponseSupportProduct response = new ResponseSupportProduct(1L, "Producto", "001", 10, BigDecimal.valueOf(100.0f), "1", "Electrónica", null);
 
         Mockito.when(productRepositoryPort.findAllProduct(0, 25, "DESC")).thenReturn(productList);
 
@@ -58,8 +58,8 @@ public class PruebaPeticiones {
     // getProductById()
     @Test
     void getProductById_ShouldReturnProduct_WhenExists() {
-        SupportProduct product = new SupportProduct(1L, "Prod", "002", 5, BigDecimal.valueOf(50.0f), "2", "Categoria");
-        ResponseSupportProduct response = new ResponseSupportProduct(1L, "Prod", "002", 5, BigDecimal.valueOf(50.0f), "2", "Categoria");
+        SupportProduct product = new SupportProduct(1L, "Prod", "002", 5, BigDecimal.valueOf(50.0f), "2", "Categoria", null );
+        ResponseSupportProduct response = new ResponseSupportProduct(1L, "Prod", "002", 5, BigDecimal.valueOf(50.0f), "2", "Categoria", null);
 
         Mockito.when(productRepositoryPort.findProductById(1L)).thenReturn(product);
         Mockito.when(serviceSupportProduct.getResponseSupportProduct(product)).thenReturn(response);

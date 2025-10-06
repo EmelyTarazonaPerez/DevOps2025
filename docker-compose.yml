@@ -20,7 +20,7 @@ services:
       - mysql_tienda
 
   api-servicio-gestor-solicitudes:
-    build: ./api-digital-microgestorsolicitudes
+    build: ./api-digital-solicitudes
     image: emelydayanna266/api-digital-gestor-solicitudes:v1
     container_name: proyecto-gestor-solicitudes
     ports:

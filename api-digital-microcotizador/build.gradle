@@ -1,71 +1,68 @@
 plugins {
-    // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
-    id 'org.springframework.boot' version '3.2.1'
-    id 'io.spring.dependency-management' version '1.1.4'
+    id 'org.springframework.boot'   // ✅ Usa Boot 3.1.x (última estable compatible con Spring Cloud 2022)
+    id 'io.spring.dependency-management'
     id 'java'
-
 }
 
-group = 'com.arka.gestorsolicitudes'
+ext {
+    set('springCloudVersion', "2022.0.4")  // ✅ Kilburn, compatible con Boot 3.1.x
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+group = 'com.arka.cotizador'
 version = '1.0-SNAPSHOT'
 sourceCompatibility = '17'
 
 repositories {
-    // Use Maven Central for resolving dependencies.
     mavenCentral()
 }
 
 dependencies {
-
-    implementation 'org.springframework.boot:spring-boot-starter'
-    // Use JUnit Jupiter for testing.
+    // Testing
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.1'
 
-    // This dependency is used by the application.
+    // Core
     implementation 'com.google.guava:guava:31.1-jre'
 
-    //Spring Boot webflux
+    // Spring Boot starters
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
-
-    //Spring Boot Actuator para monitoring y gestión
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    
-    //Validation
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-
-    //json processing
     implementation 'com.fasterxml.jackson.core:jackson-databind'
-    
-    // LOmbok for reducing boilerplate code
+
+    // Lombok
     compileOnly 'org.projectlombok:lombok:1.18.30'
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
 
-    //Testing
+    // Tests
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
     testImplementation 'org.testcontainers:junit-jupiter:1.17.3'
 
-    //OpenFeign and LoadBalancer
-    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    // Spring Cloud
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.1.0'
     implementation 'org.springframework.cloud:spring-cloud-starter-loadbalancer:4.1.0'
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+
+    // Resilience4j (todas alineadas)
+    implementation 'io.github.resilience4j:resilience4j-spring-boot3:2.2.0'
+    implementation 'io.github.resilience4j:resilience4j-reactor:2.2.0'
 }
 
 application {
-    mainClass = 'com.arka.gestorsolicitudes.ArcaCotizadorApplication'
-}
-
-springBoot {
-    mainClass = 'com.arka.gestorsolicitudes.ArcaCotizadorApplication'
-}
-
-tasks.named('test') {
-    // Use JUnit Platform for unit tests.
-    useJUnitPlatform()
+    mainClass = 'com.arka.cotizador.ArcaCotizadorApplication'
 }
 
 test {
     useJUnitPlatform()
 }
 
+springBoot {
+    mainClass = 'com.arka.cotizador.ArcaCotizadorApplication'
+}
